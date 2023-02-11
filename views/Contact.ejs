@@ -46,7 +46,7 @@
                 <p>Welcome @Context.Session.GetString("username")!</p>
             </div>
             <div class="col-2 logOut">
-                    <form action="http://localhost:3000/" method="GET">
+                    <form action="/" method="GET">
                         <input type="submit" value="Log out" class="purpleButton">
                     </form>
             </div>
@@ -56,7 +56,7 @@
                 <input type="text" name="searchbar" placeholder="Email" id="emailId">
                 <input type="button" value="Search" onclick="startSearching()">
             </form>
-            <form action="http://localhost:3000/addMember" method="GET">
+            <form action="/addMember" method="GET">
                 <input type="submit" value="Add Member">
             </form>
         </div>
@@ -81,7 +81,7 @@
                             <td><%=data.email%></td>
                             <td><%=data.phone%></td>
                             <td>
-                                <form action="http://localhost:3000/delete" method="POST">
+                                <form action="/delete" method="POST">
                                     <button type="submit" name="<%data.name%>">Delete</button>
                                 </form>
                             </td>
