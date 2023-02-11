@@ -7,10 +7,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // var database = require('database');
-var insertDB = require('insert_DB');
-var updateDB = require('update_DB');
-var deleteDB = require('delete_DB');
-var sendEmailSuccess = require("mail.js");
+// var insertDB = require('insert_DB');
+// var updateDB = require('update_DB');
+// var deleteDB = require('delete_DB');
+// var sendEmailSuccess = require("mail.js");
 
 var mysql = require('mysql');
 
