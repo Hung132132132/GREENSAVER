@@ -2,6 +2,7 @@ const bodyParser = require('body-parser');
 const express = require("express");
 var path = require('path');
 const app = express();
+const PORT = process.env.PORT || 3030;
 app.use(bodyParser.urlencoded({ extended: true })); 
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -27,7 +28,9 @@ app.use(express.static("public"));
 app.set("view engine", "ejs");
 app.set("views", "./views");
 
-app.listen(3000);
+app.listen(PORT, () => {
+    console.log(`server started on port ${PORT}`);
+});
 
 app.get("/", function(request, response){
     response.render("homePage");
