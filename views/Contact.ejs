@@ -1,0 +1,102 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Manage Contact</title>
+    <link rel='stylesheet' href='/css/styleSheet.css' />
+</head>
+<script>
+    // function startSearching() {
+    //     var a = 0;
+    //     var emailList = new Array();
+    //     emailList[0] = "hungtrinh@gmail.com";
+    //     emailList[1] = "hantrinh@gmail.com";
+    //     emailList[2] = "uyennguyen@gmail.com";
+
+    //     var nameList = new Array();
+    //     nameList[0] = "Hung";
+    //     nameList[1] = "Han";
+    //     nameList[2] = "Uyen";
+
+    //     var phoneList = new Array();
+    //     phoneList[0] = "0901234567";
+    //     phoneList[1] = "0902345678";
+    //     phoneList[2] = "0903456789";
+    //     var searchInput = document.getElementById("emailId").value;
+
+
+
+    //     for (var i = 0; i < emailList.length; i++) {
+    //         if (searchInput == emailList[i]) {
+    //             alert("Name: " + nameList[i] + " Email: " + emailList[i] + " Phone: " + phoneList[i]);
+    //             a++;
+    //         }
+    //     }
+    //     if (a == 0) {
+    //         alert("Not found");
+    //     }
+    // }
+</script>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-10">
+                <p>Welcome @Context.Session.GetString("username")!</p>
+            </div>
+            <div class="col-2 logOut">
+                    <form action="http://localhost:3000/" method="GET">
+                        <input type="submit" value="Log out" class="purpleButton">
+                    </form>
+            </div>
+        </div>
+        <div class="row whiteBox">
+            <form class="">
+                <input type="text" name="searchbar" placeholder="Email" id="emailId">
+                <input type="button" value="Search" onclick="startSearching()">
+            </form>
+            <form action="http://localhost:3000/addMember" method="GET">
+                <input type="submit" value="Add Member">
+            </form>
+        </div>
+        <div class="row">
+            <div class="col">
+                <table class="table2 whiteBox" id="contactList" border="1">
+                    <tr>
+                        <th>No.</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone Number</th>
+                        <th>Delete</th>
+                    </tr>
+                    <%
+                        if(userData.length != 0){
+                            var i = 1;
+                            userData.forEach(function(data){
+                        %>
+                        <tr>
+                            <td><%=i%></td>
+                            <td><%=data.name%></td>
+                            <td><%=data.email%></td>
+                            <td><%=data.phone%></td>
+                            <td>
+                                <form action="http://localhost:3000/delete" method="POST">
+                                    <button type="submit" name="<%data.name%>">Delete</button>
+                                </form>
+                            </td>
+                            
+                        </tr>
+                        
+                        <%
+                            i++;
+                            });
+                        }
+                        %>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

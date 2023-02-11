@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel='stylesheet' href='/css/styleSheet.css' />
+    <title>
+        Register
+    </title>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <h3 class="formTitle col">Register Form</h3>
+        </div>
+        <div class="row">
+            <form class="registerForm">
+                <table border="1">
+                    <tr>
+                        <td>Username</td>
+                        <td><input type="text" id="username"></td>
+                    </tr>
+                    <tr>
+                        <td>Phong number</td>
+                        <td><input type="text" id="phone"></td>
+                    </tr>
+                    <tr>
+                        <td>Email</td>
+                        <td><input type="text" id="email"></td>
+                    </tr>
+                    <tr>
+                        <td>Password</td>
+                        <td><input type="password" id="password1"></td>
+                    </tr>
+                    <tr>
+                        <td>Retype password</td>
+                        <td><input type="password" id="password2"></td>
+                    </tr>
+                </table>
+                <div class="registerButton">
+                    <input type="button" value="Register" onclick="submitRegister()">
+                </div>
+            </form>
+        </div>
+    </div>
+    <script>
+        //flag variable
+        var aPassword = 0;
+        var aBlank = 0;
+        function submitRegister() {
+            var getUsername = document.getElementById("username").value;
+            var getPhone = document.getElementById("phone").value;
+            var getEmail = document.getElementById("email").value;
+            var getPassword = document.getElementById("password1").value;
+            var getRePassword = document.getElementById("password2").value;
+            
+            var paraPassword = document.createElement("div");
+            var paraBlank = document.createElement("div");
+
+            if (getUsername != "" && getPhone != "" && getEmail != "" && getPassword != "" && getRePassword != "") {
+                if (getPassword != getRePassword && aPassword == 0) {
+                    if (aBlank != 0) {
+                        document.getElementById('errorLine').remove();
+                        aBlank = 0;
+                    }
+                    paraPassword.innerHTML = "<div class='errorMessage' id = 'errorLine'>The passwords don't match</div>";
+                    document.body.appendChild(paraPassword);
+                    aPassword++;
+                } else if (getPassword == getRePassword) {
+                    try {
+                        alert("Register successfully");
+                        location.replace("http://localhost:3000/homePageSuccess");
+                    } catch (err) {
+
+                    }
+                }
+            } else if (aBlank == 0) {
+                if (aPassword != 0) {
+                    document.getElementById('errorLine').remove();
+                    aPassword = 0;
+                }
+                paraBlank.innerHTML = "<div class='errorMessage' id='errorLine'>Please fill in the blank(s)</div>";
+                document.body.appendChild(paraBlank);
+                aBlank++;
+            }
+        }
+    </script>
+</body>
+</html>

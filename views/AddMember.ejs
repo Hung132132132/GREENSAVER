@@ -1,0 +1,63 @@
+﻿<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Member</title>
+    <link rel='stylesheet' href='/css/styleSheet.css' />
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col">
+                <h3 class="formTitle">Add Members</h3>
+            </div>
+        </div>
+        <div class="row">
+            <form class="registerForm" action="http://localhost:3000/addMember_add" method="POST">
+                <table border="1">
+                    <tr>
+                        <td>Name</td>
+                        <td><input type="text" name="name" id="name"></td>
+                    </tr>
+                    <tr>
+                        <td>Email</td>
+                        <td><input type="text" name="email" id="email"></td>
+                    </tr>
+                    <tr>
+                        <td>Phone</td>
+                        <td><input type="text" name="phone" id="phone"></td>
+                    </tr>
+                </table>
+                <div class="registerButton">
+                    <button type="submit">Add</button>
+                    <input type="button" value="Clear" onclick="clearTable()">
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+<script>
+    var aBlank = 0;
+    var paraBlamk = document.createElement("div");
+
+    function addMember() {
+        var getName = document.getElementById('name').value;
+        var getEmail = document.getElementById('email').value;
+        var getPhone = document.getElementById('phone').value;
+
+        if (getName != "" && getEmail != "" && getPhone != "") {
+            alert("Add member successfully");
+            document.getElementById("name").value = "";
+            document.getElementById("email").value = "";
+            document.getElementById("phone").value = "";
+        } else if (aBlank == 0) {
+            paraBlamk.innerHTML = "<div class='errorMessage'>Please fill in the blank(s)";
+            document.body.appendChild(paraBlamk);
+            aBlank++;
+        }
+    }
+    function clearTable(){
+        document.getElementById("name").value = "";
+        document.getElementById("email").value = "";
+        document.getElementById("phone").value = "";
+    }
+</script>
+

@@ -1,0 +1,96 @@
+﻿<!DOCTYPE html>
+<html>
+<header>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Reset password</title>
+    <link rel='stylesheet' href='/css/styleSheet.css' />
+</header>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col"><h3 class="formTitle">Reset Password</h3></div>
+        </div>
+        <div class="row">
+            <form class="resetPassForm">
+                <table border="1">
+                    <tr>
+                        <td>Username</td>
+                        <td><input type="text" id="username"></td>
+                    </tr>
+                    <tr>
+                        <td>Phone number</td>
+                        <td><input type="text" id="phone"></td>
+                    </tr>
+                    <tr>
+                        <td>OTP code</td>
+                        <td><input type="text" id="otp"></td>
+                    </tr>
+                    <tr>
+                        <td>New passsword</td>
+                        <td><input type="password" id="newPass1" required></td>
+                    </tr>
+                    <tr>
+                        <td>Retype new password</td>
+                        <td><input type="password" id="newPass2" required></td>
+                    </tr>
+                </table>
+                <input class="submitButton" type="button" value="Change password" onclick="resetPassword()">
+            </form>
+        </div>
+        <div class="row">
+            <p class="errorMessage" id="errorLine1"></p>
+        </div>
+    </div>
+</body>
+
+<script>
+    var aUsername = 0;
+    var aPhoneNumber = 0;
+    var aOTPCode = 0;
+    var aNewPassword = 0;
+    var aBlank = 0;
+    let errorText = document.getElementById("errorLine1").innerHTML;
+
+    function resetPassword() {
+        var para = document.createElement("div");
+        var paraUsername = document.createElement("div");
+        var paraPhoneNumber = document.createElement("div");
+        var paraOTPCode = document.createElement("div");
+        var paraNewPasswordFail = document.createElement("div");
+        var paraBlank = document.createElement("div");
+
+        var getUsername = document.getElementById("username").value;
+        var getPhoneNumber = document.getElementById("phone").value;
+        var getOTPCode = document.getElementById("otp").value;
+        var getNewPassword1 = document.getElementById("newPass1").value;
+        var getNewPassword2 = document.getElementById("newPass2").value;
+
+        if (getUsername != "" && getPhoneNumber != "" && getOTPCode != "" && getNewPassword1 != "" && getNewPassword2 != "") {
+            if (getUsername == "hung132132") {
+                if (getPhoneNumber == "0901010101010") {
+                    if (getOTPCode == "111") {
+                        if (getNewPassword1 == getNewPassword2) {
+                            alert("Change password succesfully");
+                            location.replace("http://localhost:3000/");
+                        } else if (aNewPassword == 0) {
+                            document.getElementById("errorLine1").innerHTML = errorText.replace("", "Please type your new password again");
+                        }
+                    } else if (aOTPCode == 0) {
+                        document.getElementById("errorLine1").innerHTML = errorText.replace("", "Wrong OTP code");
+                    }
+                } else if (aPhoneNumber == 0) {
+                    document.getElementById("errorLine1").innerHTML = errorText.replace("", "Wrong phone number");
+                }
+            } else if (aUsername == 0) {
+                document.getElementById("errorLine1").innerHTML = errorText.replace("", "Wrong username");
+            }
+        } else if (aBlank == 0) {
+            document.getElementById("errorLine1").innerHTML = errorText.replace("", "Please fill in the blank(s)");
+        }
+    }
+</script>
+</html>
+
+
+
