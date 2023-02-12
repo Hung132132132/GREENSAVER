@@ -29,15 +29,16 @@
         }
         .submitButton {
             display: block;
+            width: 80%;
             margin-left: auto;
             margin-right: auto;
         }
         .resetAndRegister {margin-top: 20px;margin-left: auto; margin-right: auto;}
         
-        .loginSide {
-            /*float:right;
-            width: 50%;*/
-        }
+        /* .loginSide {
+            float:right;
+            width: 50%;
+        } */
         
         .pContent {
             margin-left: 10%;
