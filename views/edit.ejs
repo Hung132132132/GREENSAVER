@@ -1,4 +1,4 @@
-﻿<head>
+<head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Member</title>
     <link rel='stylesheet' href='/css/styleSheet.css' />
@@ -12,26 +12,40 @@
 <body>
     <div class="container-fluid">
         <div class="row">
-            <h3 class="formTitle">Add Members</h3>
+            <div class="col">
+                <h3 class="formTitle">Edit Members</h3>
+            </div>
         </div>
         <div class="row">
-            <form class="registerForm" action="/addMember_add" method="POST">
+            <form class="registerForm" action="/edited" method="POST">
                 <table border="1">
+                    <%
+                        if(userData.length != 0){
+                            var i = 1;
+                            userData.forEach(function(data){
+                        %>
                     <tr>
                         <td>Name</td>
-                        <td><input type="text" name="name" id="name" ></td>
+                        <td><input type="text" name="name" id="name" value="<%=data.name%>" ></td>
                     </tr>
                     <tr>
                         <td>Email</td>
-                        <td><input type="text" name="email" id="email" ></td>
+                        <td><input type="text" name="email" id="email" value="<%=data.email%>" readonly="true"></td>
                     </tr>
                     <tr>
                         <td>Phone</td>
-                        <td><input type="text" name="phone" id="phone" ></td>
+                        <td><input type="text" name="phone" id="phone" value="<%=data.phone%>"></td>
                     </tr>
+                    <%
+                            i++;
+                            });
+                        }
+                        %>
                 </table>
-                <button type="submit" class="submitButton">Add</button>
-                <input type="button" class="submitButton" value="Clear" onclick="clearTable()">
+                <div class="registerButton">
+                    <button type="submit">Edit</button>
+                    <input type="button" value="Clear" onclick="clearTable()">
+                </div>
             </form>
         </div>
     </div>
@@ -57,7 +71,6 @@
     }
     function clearTable(){
         document.getElementById("name").value = "";
-        document.getElementById("email").value = "";
         document.getElementById("phone").value = "";
     }
 </script>

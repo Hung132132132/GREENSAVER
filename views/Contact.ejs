@@ -73,6 +73,7 @@
                         <th>Name</th>
                         <th>Email</th>
                         <th>Phone Number</th>
+                        <th>Delete</th>
                         <th>Edit</th>
                     </tr>
                     <%
@@ -88,7 +89,7 @@
                             <td>
                                 <a href="/contact/delete/<%=data.email%>">Delete</a>
                             </td>
-                            
+                            <td><a href="/contact/edit/<%=data.email%>">Edit</a></td>
                         </tr>
                         
                         <%
