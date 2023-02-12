@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Manage Contact</title>
     <link rel='stylesheet' href='/css/styleSheet.css' />
+    <link rel="stylesheet" href="/css/theBand.css" asp-append-version="true" />
 </head>
 <script>
     // function startSearching() {
@@ -38,7 +39,11 @@
     //     }
     // }
 </script>
-
+<div class="w3-top w3-bar w3-black">
+    <a class="w3-bar-item w3-button" href="/">Home</a>
+    <a class="w3-bar-item w3-button" href="/about">About</a>
+    <a class="w3-bar-item w3-button" href="/contact">Members</a>
+</div>
 <body>
     <div class="container-fluid">
         <div class="row">
@@ -68,7 +73,7 @@
                         <th>Name</th>
                         <th>Email</th>
                         <th>Phone Number</th>
-                        <th>Delete</th>
+                        <th>Edit</th>
                     </tr>
                     <%
                         if(userData.length != 0){

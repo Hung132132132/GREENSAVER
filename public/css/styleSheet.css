@@ -73,7 +73,7 @@
             width: 50%;
         }
         /*about*/
-        .div2 {margin-top: 60px; width: 60%; margin-left: auto; margin-right: auto; text-align: center;}
+        .div2 {margin-top: 30px; width: 60%; margin-left: auto; margin-right: auto; text-align: center;}
         .whiteBox {
             border-radius: 10px;
             padding: 20px 20px;
@@ -96,7 +96,7 @@
         .resetPassForm { width: fit-content; margin-left: auto; margin-right: auto;}
         .errorMessage {color: red;}
         
-        body {background-color: #e7e7e7;}
+        body {background-color: #e7e7e7; margin-top:38px}
         ::-webkit-scrollbar{
             width:10px;
         }

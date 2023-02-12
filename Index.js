@@ -7,10 +7,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // var database = require('database');
-// var insertDB = require('insert_DB');
-// var updateDB = require('update_DB');
-// var deleteDB = require('delete_DB');
-// var sendEmailSuccess = require("mail.js");
+var insertDB = require('insert_DB');
+var updateDB = require('update_DB');
+var deleteDB = require('delete_DB');
+var sendEmailSuccess = require("mail.js");
 
 var mysql = require('mysql');
 
@@ -71,7 +71,6 @@ app.get("/addMember", function(request, response){
     response.render("AddMember");
 });
 app.post('/addMember_add',function(req, res){
-    // res.send(req.body.name);
 	connection.connect(function(err){
 		var sql = "INSERT INTO member(name,phone,email) VALUES ('"+ req.body.name +"','" +req.body.phone + "','" +req.body.email +"')";
 		connection.query(sql,function(err,result){
@@ -80,13 +79,6 @@ app.post('/addMember_add',function(req, res){
 		});
         res.redirect("/addMember");
 	});
-//     var sql = "SELECT * FROM member";
-//     connection.connect(function(err){
-//     connection.query(sql, function(err, data,fields){
-//         if(err) throw err;
-//         response.render("Contact", {userData: data});
-//     });
-// });
 });
 
 app.get("/resetPass", function(request, response){
@@ -102,13 +94,6 @@ app.get("/update", function(request, response){
 });
 
 app.get("/contact/delete/:email", function(request, response, next){
-    // var mysql = require('mysql');
-	// var connection = mysql.createConnection({
-	// host: "localhost",
-	// user: "root",
-	// password: "123456",
-	// database: "mydb"
-	// });
 
     var email = request.params.email;
 	var sql = "DELETE FROM member WHERE email = ?";
@@ -118,11 +103,6 @@ app.get("/contact/delete/:email", function(request, response, next){
 	});
 
     response.redirect("/contact");
-    // var sql2 = "SELECT * FROM member";
-    // connection.query(sql2, function(err, data,fields){
-    //     if(err) throw err;
-    //     response.render("Contact", {userData: data});
-    // });
 });
 
 
