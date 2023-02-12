@@ -14,7 +14,7 @@
             <h3 class="formTitle col">Register Form</h3>
         </div>
         <div class="row">
-            <form class="registerForm">
+            <form class="registerForm" action="/">
                 <table border="1">
                     <tr>
                         <td>Username</td>
@@ -38,12 +38,13 @@
                     </tr>
                 </table>
                 <div class="registerButton">
-                    <input type="button" value="Register" onclick="submitRegister()">
+                    <!-- <input type="button" value="Register" onclick="submitRegister()"> -->
+                    <button type="submit">Register</button>
                 </div>
             </form>
         </div>
     </div>
-    <script>
+    <!-- <script>
         //flag variable
         var aPassword = 0;
         var aBlank = 0;
@@ -84,6 +85,6 @@
                 aBlank++;
             }
         }
-    </script>
+    </script> -->
 </body>
 </html>

@@ -49,7 +49,7 @@ app.get("/homePageSuccess", function(request, response){
         res.locals.lastName = req.session.lastName;
         next();
     });
-    response.render("homePage");
+    response.redirect("/");
 });
 
 app.get("/contact", function(request, response){
@@ -78,7 +78,7 @@ app.post('/addMember_add',function(req, res){
 			if(err) throw err;
 			console.log("Some records are added " + result.affectedRows);
 		});
-        res.render("AddMember");
+        res.redirect("/addMember");
 	});
 //     var sql = "SELECT * FROM member";
 //     connection.connect(function(err){
@@ -101,26 +101,28 @@ app.get("/update", function(request, response){
     response.render("ResetPass");
 });
 
-app.get("/delete", function(request, response){
-    var mysql = require('mysql');
-	var connection = mysql.createConnection({
-	host: "localhost",
-	user: "root",
-	password: "123456",
-	database: "mydb"
+app.get("/contact/delete/:email", function(request, response, next){
+    // var mysql = require('mysql');
+	// var connection = mysql.createConnection({
+	// host: "localhost",
+	// user: "root",
+	// password: "123456",
+	// database: "mydb"
+	// });
+
+    var email = request.params.email;
+	var sql = "DELETE FROM member WHERE email = ?";
+	connection.query(sql, [email],function(err,data){
+		if(err) throw err;
+		console.log("Some records are added " + data.affectedRows);
 	});
 
-	connection.connect(function(err){
-		if(err) throw err;
-		console.log("Connected");
-		request.get
-		var sql = "DELETE FROM member WHERE name = '${req.body.name}'";
-		connection.query(sql,function(err,result){
-			if(err) throw err;
-			console.log("Some records are added " + result.affectedRows);
-		});
-	});
-    response.render("Contact");
+    response.redirect("/contact");
+    // var sql2 = "SELECT * FROM member";
+    // connection.query(sql2, function(err, data,fields){
+    //     if(err) throw err;
+    //     response.render("Contact", {userData: data});
+    // });
 });
 
 

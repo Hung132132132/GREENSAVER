@@ -81,9 +81,7 @@
                             <td><%=data.email%></td>
                             <td><%=data.phone%></td>
                             <td>
-                                <form action="/delete" method="POST">
-                                    <button type="submit" name="<%data.name%>">Delete</button>
-                                </form>
+                                <a href="/contact/delete/<%=data.email%>">Delete</a>
                             </td>
                             
                         </tr>
