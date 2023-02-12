@@ -7,9 +7,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // var database = require('database');
-var insertDB = require('insert_DB');
-var updateDB = require('update_DB');
-var deleteDB = require('delete_DB');
+var insert_DB = require('insert_DB');
+var update_DB = require('update_DB');
+var delete_DB = require('delete_DB');
 var sendEmailSuccess = require("mail.js");
 
 var mysql = require('mysql');
@@ -42,7 +42,6 @@ app.get("/register", function(request, response){
 
 app.get("/homePageSuccess", function(request, response){
     sendEmailSuccess();
-    addMember();
     app.use(function (req, res, next) {
         res.locals.email = req.session.email;
         res.locals.firstName = req.session.firstName;
