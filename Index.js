@@ -53,7 +53,7 @@ app.get("/homePageSuccess", function(request, response){
 });
 
 app.get("/contact", function(request, response){
-    var sql = "SELECT * FROM member";
+    var sql = "SELECT * FROM member ORDER BY name";
     connection.connect(function(err){
     connection.query(sql, function(err, data,fields){
         if(err) throw err;
