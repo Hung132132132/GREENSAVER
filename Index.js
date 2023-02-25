@@ -23,10 +23,10 @@ app.use(express.static("public"));
     
 const { response } = require("express");
 var connection = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "123456",
-    database: "mydb"
+    host: "sql12.freesqldatabase.com",
+    user: "sql12600764",
+    password: "mfiilPC6pe",
+    database: "sql12600764"
 });
 
 app.set("view engine", "ejs");
