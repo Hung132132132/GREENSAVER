@@ -43,7 +43,7 @@
         .pContent {
             margin-left: 10%;
             margin-right: 10%;
-            margin-top: 50px;
+            margin-top: 20px;
             text-align: justify;
         }
         
@@ -71,7 +71,7 @@
         } */
         .table2 {
             margin-top: 10px;
-            width: 50%;
+            width: 100%;
         }
         /*about*/
         .div2 {margin-top: 30px; width: 60%; margin-left: auto; margin-right: auto; text-align: center;}
@@ -91,6 +91,15 @@
         .formTitle {
             margin-top: 40px;
             text-align: center;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        .tableForm {
+            width: 100%;
+        }
+        .inputForm {
+            width: 100%;
         }
         
         /*reset pass*/

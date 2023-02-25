@@ -37,6 +37,43 @@
                         <td>Phone</td>
                         <td><input type="text" name="phone" id="phone" value="<%=data.phone%>"></td>
                     </tr>
+                    <tr>
+                        <td>Role</td>
+                        <td>
+                            <select class="inputForm" name="role" id="" select>
+                                <% if (data.role == 'Staff'){ %>
+                                    <option value="Staff" selected>Staff</option>
+                                    <option value="Admin">Admin</option>
+                                <% } else {%>
+                                    <option value="Staff">Staff</option>
+                                    <option value="Admin" selected>Admin</option>
+                                <% } %>
+                            </select>
+                        </td>
+                    </tr>
+                    <!-- <tr>
+                        <td>Role</td>
+                        <td>
+                            <select class="inputForm" name="role" id="" aria-selected="">
+                                <option value="Staff">Staff</option>
+                                <option value="Admin">Admin</option>
+                            </select>
+                        </td>
+                    </tr> -->
+                    <tr>
+                        <td>Area</td>
+                        <td>
+                            <select class="inputForm" name="area" id="">
+                                <% if (data.area == 'VIETNAM'){ %>
+                                    <option value="VIETNAM" selected>VIETNAM</option>
+                                    <option value="UNITED KINGDOM">UNITED KINGDOM</option>
+                                <% } else {%>
+                                    <option value="VIETNAM">VIETNAM</option>
+                                    <option value="UNITED KINGDOM" selected>UNITED KINGDOM</option>
+                                <% } %>
+                            </select>
+                        </td>
+                    </tr>
                     <%
                             i++;
                             });

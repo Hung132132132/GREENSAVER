@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel='stylesheet' href='/css/styleSheet.css' />
     <link rel="stylesheet" href="/css/theBand.css" asp-append-version="true" />
@@ -14,81 +16,75 @@
     <a class="w3-bar-item w3-button" href="/about">About</a>
     <a class="w3-bar-item w3-button" href="/contact">Members</a>
 </div>
+
 <body>
     <div class="container-fluid">
         <div class="row">
             <h3 class="formTitle col">Register Form</h3>
         </div>
         <div class="row">
-            <form class="registerForm" action="/">
-                <table border="1">
+            <form class="registerForm" name="registerForm" action="/addMember_add" method="POST">
+                <table border="1" class="tableForm">
+                    <h4>Log-in information</h4>
                     <tr>
                         <td>Username</td>
-                        <td><input type="text" id="username"></td>
-                    </tr>
-                    <tr>
-                        <td>Phong number</td>
-                        <td><input type="text" id="phone"></td>
-                    </tr>
-                    <tr>
-                        <td>Email</td>
-                        <td><input type="text" id="email"></td>
+                        <td><input class="inputForm" type="text" id="username" name="username" required></td>
                     </tr>
                     <tr>
                         <td>Password</td>
-                        <td><input type="password" id="password1"></td>
+                        <td><input class="inputForm" type="password" id="password1" name="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                            title="Must contain at least one  number and one uppercase and lowercase letter, and at least 8 or more characters" required></td>
+                    </tr>
+                    <!-- <tr>
+                        <td>Retype password</td>
+                        <td><input type="password" id="password2" required></td>
+                    </tr> -->
+                </table>
+                <table border="1" class="tableForm">
+                    <h4>User information</h4>
+                    <tr>
+                        <td>Name</td>
+                        <td><input type="text" id="name" name="name" required></td>
                     </tr>
                     <tr>
-                        <td>Retype password</td>
-                        <td><input type="password" id="password2"></td>
+                        <td>Phone number</td>
+                        <td><input type="text" name="phone" pattern="[0-9]{10}" 
+                            title="Phone number with 7-9 and remaing 9 digit with 0-9" required></td>
                     </tr>
+                    <tr>
+                        <td>Email</td>
+                        <td><input type="email" id="email" name="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required></td>
+                    </tr>
+                    <tr>
+                        <td>Area</td>
+                        <td>
+                            <select class="inputForm" name="area" id="">
+                                <option value="UNITED KINGDOM">UNITED KINGDOM</option>
+                                <option value="VIETNAM">VIETNAM</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <!-- <tr>
+                        <td>Retype password</td>
+                        <td><input type="password" id="password2" required></td>
+                    </tr> -->
                 </table>
-                <!-- <input type="button" value="Register" onclick="submitRegister()"> -->
-                <button type="submit" class="submitButton">Register</button>
+                <input class="submitButton" type="submit" name="submit" value="Register"/>
             </form>
         </div>
     </div>
-    <!-- <script>
-        //flag variable
-        var aPassword = 0;
-        var aBlank = 0;
-        function submitRegister() {
-            var getUsername = document.getElementById("username").value;
-            var getPhone = document.getElementById("phone").value;
-            var getEmail = document.getElementById("email").value;
-            var getPassword = document.getElementById("password1").value;
-            var getRePassword = document.getElementById("password2").value;
-            
-            var paraPassword = document.createElement("div");
-            var paraBlank = document.createElement("div");
-
-            if (getUsername != "" && getPhone != "" && getEmail != "" && getPassword != "" && getRePassword != "") {
-                if (getPassword != getRePassword && aPassword == 0) {
-                    if (aBlank != 0) {
-                        document.getElementById('errorLine').remove();
-                        aBlank = 0;
-                    }
-                    paraPassword.innerHTML = "<div class='errorMessage' id = 'errorLine'>The passwords don't match</div>";
-                    document.body.appendChild(paraPassword);
-                    aPassword++;
-                } else if (getPassword == getRePassword) {
-                    try {
-                        alert("Register successfully");
-                        location.replace("http://localhost:3000/homePageSuccess");
-                    } catch (err) {
-
-                    }
-                }
-            } else if (aBlank == 0) {
-                if (aPassword != 0) {
-                    document.getElementById('errorLine').remove();
-                    aPassword = 0;
-                }
-                paraBlank.innerHTML = "<div class='errorMessage' id='errorLine'>Please fill in the blank(s)</div>";
-                document.body.appendChild(paraBlank);
-                aBlank++;
-            }
-        }
-    </script> -->
 </body>
+<script>
+    // function validate_Password(){
+    //     var pass1 = document.getElementById("password1").value;
+    //     var pass2 = document.getElementById("password2").value;
+    //     if (pass1 != pass2){
+    //         alert("fail")
+    //         return false;
+    //     } else {
+    //         return true;
+    //     }
+    // }
+</script>
+
 </html>

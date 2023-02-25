@@ -509,7 +509,8 @@ a {
     width: auto;
     border: none;
     display: block;
-    outline: 0
+    outline: 0;
+    text-decoration: none;
 }
 
 .w3-bar .w3-dropdown-hover, .w3-bar .w3-dropdown-click {
@@ -1369,7 +1370,7 @@ a {
 
 .w3-button:hover {
     color: #000 !important;
-    background-color: #ccc !important;
+    background-color: #cccccc !important;
     transition: 0.3s;
 }
 

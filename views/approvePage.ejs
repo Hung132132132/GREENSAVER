@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
@@ -57,88 +57,48 @@
             </div>
         </div>
         <div class="row whiteBox">
-            <form action="/contact/search" method="POST">
-                <input type="text" name="searchInput" placeholder="Name" id="emailId" value="<%=input%>">
+            <form action="/approve/search" method="POST">
+                <input type="text" name="searchInput" placeholder="Email" id="emailId" value="<%=input%>">
                 <input type="submit" value="Search">
-                <!-- <button type="submit">Search</button> -->
             </form>
-            <form action="/approve" method="GET">
-                <input type="submit" value="Approve">
-            </form>
+            <!-- <form action="/addMember" method="GET">
+                <input type="submit" value="Add Member">
+            </form> -->
         </div>
         <%
-        if(userData.length != 0) {
+        if(userData.length != 0){
         %>
         <div class="row">
             <div class="col">
                 <table class="table2 whiteBox" id="contactList" border="1">
-                    <h4>VIETNAM</h4>
                     <tr>
                         <th>No.</th>
                         <th>Name</th>
                         <th>Email</th>
                         <th>Phone Number</th>
-                        <th>Role</th>
+                        <th>Area</th>
                         <th>Delete</th>
-                        <th>Edit</th>
+                        <th>Approve</th>
                     </tr>
                     <%
                         if(userData.length != 0){
                             var i = 1;
                             userData.forEach(function(data){
-                                if(data.role != 'not approved' && data.area == 'VIETNAM'){
                         %>
                         <tr>
                             <td><%=i%></td>
                             <td><%=data.name%></td>
                             <td><%=data.email%></td>
                             <td><%=data.phone%></td>
-                            <td><%=data.role%></td>
+                            <td><%=data.area%></td>
                             <td>
                                 <a href="/contact/delete/<%=data.email%>">Delete</a>
                             </td>
-                            <td><a href="/contact/edit/<%=data.email%>">Edit</a></td>
+                            <td><a href="/contact/approve/<%=data.email%>">Approve</a></td>
                         </tr>
                         
                         <%
                             i++;
-                            }
-                            });
-                        }
-                        %>
-                </table>
-                <table class="table2 whiteBox" id="contactList" border="1">
-                    <h4>UNITED KINGDOM</h4>
-                    <tr>
-                        <th>No.</th>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Phone Number</th>
-                        <th>Role</th>
-                        <th>Delete</th>
-                        <th>Edit</th>
-                    </tr>
-                    <%
-                        if(userData.length != 0){
-                            var i = 1;
-                            userData.forEach(function(data){
-                                if(data.role != 'not approved' && data.area == 'UNITED KINGDOM'){
-                        %>
-                        <tr>
-                            <td><%=i%></td>
-                            <td><%=data.name%></td>
-                            <td><%=data.email%></td>
-                            <td><%=data.phone%></td>
-                            <td><%=data.role%></td>
-                            <td>
-                                <a href="/contact/delete/<%=data.email%>">Delete</a>
-                            </td>
-                            <td><a href="/contact/edit/<%=data.email%>">Edit</a></td>
-                        </tr>
-                        
-                        <%
-                            i++;
-                            }
                             });
                         }
                         %>
