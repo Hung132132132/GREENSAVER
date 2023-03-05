@@ -7,23 +7,23 @@ var path = require('path');
 const db = require('./db');
 const isAuth = require('./middlewares/auth.middleware');
 const isntAuth = require('./middlewares/isntauth.middleware');
-require('dotenv').config();
+// require('dotenv').config();
 const mail = require('./mail');
 const app = express();
 
 
 const PORT = process.env.PORT || 3000;
 const oneDay = 1000 * 60 * 60 * 24;
-const IN_PROD = process.env.NODE_ENV === 'production';
+const IN_PROD = 'development' === 'production';
 
 const options ={
     connectionLimit: 10,
-    password: process.env.DB_PASS,
-    user: process.env.DB_USER,
-    database: process.env.MYSQL_DB,
-    host: process.env.DB_HOST,
-    port: process.env.DB_PORT,
-    createDatabaseTable: true
+    password: "mfiilPC6pe",
+    user: "sql12600764",
+    database: "sql12600764",
+    host: "sql12.freesqldatabase.com",
+    port: 3306,
+    createDatabaseTable: true,
 }
 
 const sessionStore = new mysqlStore(options);
@@ -33,7 +33,7 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     store: sessionStore,
-    secret: process.env.SESS_SECRET,
+    secret: 'qhungmika',
     cookie: {
         httpOnly: true,
         maxAge: oneDay,
