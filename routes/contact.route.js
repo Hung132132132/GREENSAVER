@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const isAuth = require('../middlewares/auth.middleware');
-const mail = require('mail');
+const mail = require('../mail');
 
 const db = require('../db');
 

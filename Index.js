@@ -8,7 +8,7 @@ const db = require('./db');
 const isAuth = require('./middlewares/auth.middleware');
 const isntAuth = require('./middlewares/isntauth.middleware');
 require('dotenv').config();
-const mail = require('mail');
+const mail = require('./mail');
 const app = express();
 
 
