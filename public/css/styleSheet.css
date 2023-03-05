@@ -20,18 +20,47 @@
         .table1 {margin-left: 10%; margin-right: 10%; width:80%;}
         .loginForm {
             border-radius: 15px;
-            height: 50px;
+            /* height: 50px; */
+            padding: 10px;
             width: 100%;
             border: 3px dashed #c9c9c9;
         }
         h2 {
             text-align: center;
         }
+        a:hover{
+            text-decoration: none;
+        }
+        .homebuttons{
+            text-align: center;
+            margin-top: 10px;
+        }
         .submitButton {
-            display: block;
-            width: 80%;
+            display: inline-block;
             margin-left: auto;
             margin-right: auto;
+        }
+        .vertical-align-center{
+            vertical-align: middle;
+        }
+        .red:hover{
+            color:red;
+            font-weight: bold;
+        }
+        .width20{
+            width: 20%;
+        }
+        .width30{
+            width: 30%;
+        }
+        .width40{
+            width: 40%;
+        }
+        .width60{
+            width: 60%;
+        }
+        .width80 {
+            width: 80%;
         }
         .resetAndRegister {margin-top: 20px;margin-left: auto; margin-right: auto;}
         
@@ -43,28 +72,32 @@
         .pContent {
             margin-left: 10%;
             margin-right: 10%;
-            margin-top: 20px;
+            /* margin-top: 20px;
+            margin-bottom: 20px; */
             text-align: justify;
         }
         
-        .fontGeneva {
+        /* .fontGeneva {
             font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-        }
+        } */
         
         .center{margin-left: auto; margin-right: auto;}
         /*manageContact*/
         .purpleButton {
+            text-align: center;
             vertical-align: middle;
             padding: 8px 16px;
             background-color: #784ca8;
             text-decoration: none;
             color: white;
             border-radius: 10px;
+            border: none;
         }
         .purpleButton:hover {
             color: black;
             background-color: #cdcdcd;
             transition: 0.3s;
+            text-decoration: none;
         }
         /* .logOut {
             margin-top: 40px;
@@ -76,11 +109,19 @@
         /*about*/
         .div2 {margin-top: 30px; width: 60%; margin-left: auto; margin-right: auto; text-align: center;}
         .whiteBox {
+            margin-top: 10px;
+            margin-bottom: 10px;
+            margin-left: auto;
+            margin-right: auto;
             border-radius: 10px;
             padding: 20px 20px;
             background-color: white;
         }
         .pinkBox {
+            margin-top: 10px;
+            margin-bottom: 10px;
+            margin-left: auto;
+            margin-right: auto;
             border-radius: 10px;
             padding: 20px 20px;
             background-color: #ffc7c7;
@@ -89,7 +130,8 @@
         .registerForm {margin-right: auto; margin-left: auto; width: fit-content;}
         .registerButton {margin-left: auto; margin-right: auto; width: fit-content;}
         .formTitle {
-            margin-top: 40px;
+            font-size: xx-large;
+            /* margin-top: 40px; */
             text-align: center;
             text-transform: uppercase;
             font-weight: bold;
@@ -118,3 +160,29 @@
             background-color: #5a9c64;
         }
         /*Footer*/
+
+        .aboutImage {
+            max-width: 20%;
+        }
+
+        .alert {
+            color: red;
+            text-transform: uppercase;
+            font-weight: bold;
+            display: grid;
+            place-content: center;
+        }
+
+        .picside {
+            overflow: hidden;
+        }
+
+        .sidePic1 {
+            overflow: hidden;
+        }
+
+        .searchInput {
+            border-radius: 10px;
+        }
+
+        

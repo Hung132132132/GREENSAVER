@@ -1,33 +1,56 @@
 const bodyParser = require('body-parser');
+const cookieParser = require("cookie-parser");
 const express = require("express");
+const session = require('express-session');
+const mysqlStore = require('express-mysql-session')(session);
 var path = require('path');
+const db = require('./db');
+const isAuth = require('./middlewares/auth.middleware');
+const isntAuth = require('./middlewares/isntauth.middleware');
+require('dotenv').config();
+const mail = require('mail');
 const app = express();
-const PORT = process.env.PORT || 3000;
 
+
+const PORT = process.env.PORT || 3000;
+const oneDay = 1000 * 60 * 60 * 24;
+const IN_PROD = process.env.NODE_ENV === 'production';
+
+const options ={
+    connectionLimit: 10,
+    password: process.env.DB_PASS,
+    user: process.env.DB_USER,
+    database: process.env.MYSQL_DB,
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT,
+    createDatabaseTable: true
+}
+
+const sessionStore = new mysqlStore(options);
+
+app.use(session({
+    name: process.env.SESS_NAME,
+    resave: false,
+    saveUninitialized: false,
+    store: sessionStore,
+    secret: process.env.SESS_SECRET,
+    cookie: {
+        httpOnly: true,
+        maxAge: oneDay,
+        sameSite: true,
+        secure: IN_PROD
+    }
+}));
+app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static("public"));
-// app.use(session({
-    //     secret: 'secret-key',
-    //     resave: false,
-    //     saveUninitialized: false,
-    // }));
-    
-    // var database = require('database');
-    // var insert_DB = require('insert_DB.js');
-    // var update_DB = require('update_DB.js');
-    // var delete_DB = require('delete_DB.js');
-    // var sendEmailSuccess = require("mail.js");
-    
-    var mysql = require('mysql');
-    
-const { response } = require("express");
-var connection = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "123456",
-    database: "mydb"
-});
+
+//Routers
+var contactRoute = require('./routes/contact.route');
+var approveRoute = require('./routes/approve.route');
+app.use('/contact', contactRoute);
+app.use('/approve', approveRoute);
 
 app.set("view engine", "ejs");
 app.set("views", "./views");
@@ -36,149 +59,93 @@ app.listen(PORT, () => {
     console.log(`server started on port ${PORT}`);
 });
 
-app.get("/", function (request, response, next) {
-    response.render("homePage");
+app.get("/", function (req, response, next) {
+    response.render("homePage", {session : req.session.userName, errMess: null});
 });
 
-app.get("/register", function (request, response) {
-    response.render("registerPage");
+app.post('/auth', async function (req, res, next) {
+    var username = req.body.username;
+    var password = req.body.password;
+    var user = await db.getUserByUsername(username);
+
+    if(!user) {
+        return res.render("homePage", {session : req.session.userName, errMess: "INVALID USERNAME"});
+    };
+
+    if(user.role == 'not approved') {
+        return res.render("homePage", {session : req.session.userName, errMess: "UNAPPROVED ACCOUNT"});
+    }
+
+    if(user.password !== password) {
+        return res.render("homePage", {session : req.session.userName, errMess: "INVALID PASSWORD"});
+    }
+
+    req.session.user = user.uid;
+    req.session.userName = user.username;
+    req.session.role = user.role;
+    req.session.isAuth = true;
+    return res.redirect('/contact');
 });
 
-app.post('/addMember_add', function (req, res) {
-    connection.connect(function (err) {
-        var sql1 = "INSERT INTO member(name,phone,email,username,password,area) VALUES ('" + req.body.name + "','" + req.body.phone + "','" 
-        + req.body.email + "','" + req.body.username + "','" + req.body.password + "','" + req.body.area + "')";
-        connection.query(sql1, function (err, results) {
-            if (err) throw err;
-        });
-        res.redirect("/");
-    });
+app.get('/logout', (req,res) => {
+    req.session.destroy();
+    res.render("homePage", {session : null, errMess: null});
+})
+
+app.get("/register",isntAuth, function (req, response) {
+    response.render("registerPage", {errMess: null});
 });
 
-app.get("/homePageSuccess", function (request, response) {
-    sendEmailSuccess();
-    app.use(function (req, res, next) {
-        res.locals.email = req.session.email;
-        res.locals.firstName = req.session.firstName;
-        res.locals.lastName = req.session.lastName;
-        next();
-    });
-    response.redirect("/");
-});
+app.post('/addMember_add',isntAuth, async function (req, res) {
+    var name = req.body.name;
+    var phone = req.body.phone;
+    var email = req.body.email;
+    var username = req.body.username;
+    var password = req.body.password;
+    var area = req.body.area;
+    var userUsername = await db.getUserByUsername(username);
+    var userPhone = await db.getUserByPhone(phone);
+    var userEmail = await db.getUserByEmail(email);
 
-app.get("/contact", function (request, response) {
-    var sql = "SELECT * FROM member WHERE email != 'not approved' ORDER BY name";
-    var input = "";
-    connection.connect(function (err) {
-        connection.query(sql, function (err, data, fields) {
-            if (err) throw err;
-            response.render("Contact", { userData: data, input: input });
-        });
-    });
-});
+    console.log(userUsername);
 
-app.post("/contact/search", function (req, res) {
-    if (req.body.searchInput != ''){
-        var sql = "SELECT * FROM member WHERE role != 'not approved' AND name = '" + req.body.searchInput + "' ORDER BY name";
-        connection.connect(function (err) {
-            connection.query(sql, function (err, data, fields) {
-                if (err) throw err;
-                res.render("Contact", { userData: data, input: req.body.searchInput });
-            });
-        });
+    if(userUsername) {
+        return res.render('registerPage', {errMess: 'Username already in use!'})
+    } else if(userPhone) {
+        return res.render('registerPage', {errMess: 'Phone number already in use!'})
+    } else if(userEmail) {
+        return res.render('registerPage', {errMess: 'Email already in use!'})
     } else {
-        res.redirect("/contact");
+        db.insertUser(name, phone, email, username, password, area);
+        mail.SignUp(username, email);
+        return res.redirect("/");
     }
 });
 
-app.post("/approve/search", function (req, res) {
-    if (req.body.searchInput != ''){
-        var sql = "SELECT * FROM member WHERE role = 'not approved' AND name = '" + req.body.searchInput + "' ORDER BY name";
-        connection.connect(function (err) {
-            connection.query(sql, function (err, data, fields) {
-                if (err) throw err;
-                res.render("approvePage", { userData: data, input: req.body.searchInput });
-            });
-        });
-    } else {
-        res.redirect("/approve");
+app.get("/about", function (req, res) {
+    res.render("About");
+});
+
+app.get("/resetPass",isntAuth, function (req, res) {
+    res.render("ResetPass", {errMess: null});
+});
+
+app.post('/resetpass/reset',isntAuth, async function (req,res,next) {
+    // var otp = req.body.otp;
+    var username = req.body.username;
+    var phone = req.body.phone;
+    var pass = req.body.pass1;
+    var user = await db.getUserByUsername(username);
+
+    if(!user) {
+        return res.render('ResetPass', {errMess: 'Username does not exist!'});
     }
-});
+    if(user.phone != phone) {
+        return res.render('ResetPass', {errMess: 'Wrong phone number!'});
+    }
 
-app.get("/approve", function (request, response) {
-    var sql = "SELECT * FROM member WHERE role = 'not approved' ORDER BY name";
-    var input = "";
-    connection.connect(function (err) {
-        connection.query(sql, function (err, data, fields) {
-            if (err) throw err;
-            response.render("approvePage", { userData: data, input: input });
-        });
-    });
-});
-
-
-app.get("/about", function (request, response) {
-    response.render("About");
-});
-
-// app.get("/addMember", function (request, response) {
-//     response.render("AddMember");
-// });
-
-
-
-app.get("/resetPass", function (request, response) {
-    response.render("ResetPass");
-});
-app.get("/insert", function (request, response) {
-    insert_DB();
-    response.render("ResetPass");
-});
-app.get("/update", function (request, response) {
-    update_DB();
-    response.render("ResetPass");
-});
-
-app.get("/contact/delete/:email", function (request, response, next) {
-
-    var email = request.params.email;
-    var sql = "DELETE FROM member WHERE email = ?";
-    connection.query(sql, [email], function (err, data) {
-        if (err) throw err;
-        console.log("Some records are added " + data.affectedRows);
-    });
-
-    response.redirect("/contact");
-});
-
-app.get("/contact/edit/:email", function (request, response, next) {
-    var email = request.params.email;
-    var sql = "SELECT * FROM member WHERE email = ?";
-    connection.query(sql, [email], function (err, data) {
-        if (err) throw err;
-        response.render("edit", { userData: data });
-    });
-});
-
-app.get("/contact/approve/:email", function (request, response, next) {
-    var email = request.params.email;
-    var sql = "UPDATE member SET role = 'Staff' WHERE email = ?";
-    connection.query(sql, [email], function (err, data) {
-        if (err) throw err;
-        // response.render("edit", { userData: data });
-        response.redirect("/approve");
-    });
-});
-
-app.post("/edited", function (req, res) {
-    var sql = "UPDATE member SET name = '" + req.body.name + "', phone = '" + req.body.phone + "', area = '" + req.body.area
-    + "', role = '" + req.body.role + "' WHERE email = '" + req.body.email + "'";
-    connection.query(sql, function (err, data) {
-        if (err) throw err;
-        console.log("A record has been changed");
-    });
-    res.redirect("/contact");
-    
+    db.resetPass(username, pass);
+    return res.redirect('/');
 });
 
 module.exports = app;
