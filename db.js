@@ -2,10 +2,10 @@ const mysql = require('mysql');
 require('dotenv').config();
 
 const pool = mysql.createPool({
-    host: "sql12.freesqldatabase.com",
-    user: "sql12600764",
-    password: "mfiilPC6pe",
-    database: "sql12600764"
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASS,
+    database: process.env.MYSQL_DB
 });
 
 let db = {};
