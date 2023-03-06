@@ -1,5 +1,7 @@
 const mysql = require('mysql');
-// require('dotenv').config();
+const SqlString = require('sqlstring');
+const mail = require('./mail');
+require('dotenv').config();
 
 const pool = mysql.createPool({
     host: "sql12.freesqldatabase.com",
@@ -31,6 +33,15 @@ db.getUserApprove = (req, res, name) => {
     pool.query(sql, function (err, data, fields) {
         if (err) throw err;
         res.render("approvePage", { userData: data, name: name });
+    });
+};
+
+db.getUserEdit = (req, res, email) => {
+    var sql = "SELECT * FROM member WHERE email = ?";
+    pool.query(sql, [email], function (err, data) {
+        if (err) throw err;
+
+        res.render("edit", { userData: data });
     });
 };
 
@@ -67,8 +78,32 @@ db.getUserByEmail = (email) => {
     });
 };
 
+db.getMultipleUsernamesByEmail = (email) => {
+    var sql = SqlString.format("SELECT * FROM member WHERE email IN (?)", [email]);
+    console.log(sql);
+    pool.query(sql, [email], (error, users) => {
+        if (error) {
+            return error;
+        }
+        console.log(users[1].username);
+        for (i = 0; i < users.length; i++) {
+            // mail.DisApprove(users[i].username, users[i].email);
+        }
+    });
+};
+
 db.deleteUser = (email) => {
     var sql = "DELETE FROM member WHERE email = '" + email + "'";
+    pool.query(sql, function (err, data) {
+        if (err) throw err;
+        console.log("Some records are deleted " + data.affectedRows);
+    });
+};
+
+db.deleteMultipleUsers = async (email) => {
+    // await db.getMultipleUsernamesByEmail(email);
+    var sql = SqlString.format("DELETE FROM member WHERE email IN (?)", [email]);
+    console.log(sql);
     pool.query(sql, function (err, data) {
         if (err) throw err;
         console.log("Some records are deleted " + data.affectedRows);
@@ -85,16 +120,16 @@ db.approveUser = (email) => {
             return resolve(users[0]);
         });
     })
-}
+};
 
-db.getUserEdit = (req, res, email) => {
-    var sql = "SELECT * FROM member WHERE email = ?";
-    pool.query(sql, [email], function (err, data) {
+db.approveMultipleUsers = (email) => {
+    var sql = SqlString.format("UPDATE member SET role = 'Staff' WHERE email IN (?)", [email]);
+    console.log(sql);
+    pool.query(sql, function (err, data) {
         if (err) throw err;
-
-        res.render("edit", { userData: data });
+        console.log("Some records are changed " + data.affectedRows);
     });
-}
+};
 
 db.editUser = (phone,area,role,email) => {
     var sql = "UPDATE member SET phone = '" + phone + "', area = '" + area 
@@ -103,7 +138,7 @@ db.editUser = (phone,area,role,email) => {
         if (err) throw err;
         console.log("A record has been changed");
     });
-}
+};
 
 db.resetPass = (username, pass) => {
     var sql = "UPDATE member SET password = '" + pass + "' WHERE username = '" + username + "'";
@@ -112,7 +147,7 @@ db.resetPass = (username, pass) => {
 
         console.log('A record has been changed');
     });
-}
+};
 
 db.generateOTP = (myLength) => {
     const chars =
