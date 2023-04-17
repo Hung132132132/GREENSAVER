@@ -7,22 +7,22 @@ var path = require('path');
 const db = require('./db');
 const isAuth = require('./middlewares/auth.middleware');
 const isntAuth = require('./middlewares/isntauth.middleware');
-// require('dotenv').config();
+require('dotenv').config();
 const mail = require('./mail');
 const app = express();
 
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.APP_PORT || 3000;
 const oneDay = 1000 * 60 * 60 * 24;
-const IN_PROD = 'development' === 'production';
+const IN_PROD = process.env.NODE_ENV === 'production';
 
 const options ={
     connectionLimit: 10,
-    password: "mfiilPC6pe",
-    user: "sql12600764",
-    database: "sql12600764",
-    host: "sql12.freesqldatabase.com",
-    port: 3306,
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASS,
+    database: process.env.MYSQL_DB,
+    port: process.env.DB_PORT,
     createDatabaseTable: true,
 }
 
@@ -33,7 +33,7 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     store: sessionStore,
-    secret: 'qhungmika',
+    secret: process.env.SESS_SECRET,
     cookie: {
         httpOnly: true,
         maxAge: oneDay,
@@ -49,8 +49,10 @@ app.use(express.static("public"));
 //Routers
 var contactRoute = require('./routes/contact.route');
 var approveRoute = require('./routes/approve.route');
+var forumRoute = require('./routes/forum.route');
 app.use('/contact', contactRoute);
 app.use('/approve', approveRoute);
+app.use('/forum', forumRoute);
 
 app.set("view engine", "ejs");
 app.set("views", "./views");
@@ -87,7 +89,7 @@ app.post('/auth', async function (req, res, next) {
     return res.redirect('/contact');
 });
 
-app.get('/logout', (req,res) => {
+app.get('/logout', async (req,res) => {
     req.session.destroy();
     res.render("homePage", {session : null, errMess: null});
 })
@@ -131,7 +133,6 @@ app.get("/resetPass",isntAuth, function (req, res) {
 });
 
 app.post('/resetpass/reset',isntAuth, async function (req,res,next) {
-    // var otp = req.body.otp;
     var username = req.body.username;
     var phone = req.body.phone;
     var pass = req.body.pass1;

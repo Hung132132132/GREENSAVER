@@ -11,7 +11,7 @@ let mail = {};
 
 var emailDemo = 'alex.yasuo132132@gmail.com'
 
-var noteMess = "Note: This is an automatically generated email. Do not reply to it."
+var noteMess = "<b>Note:</b> This is an automatically generated email. Do not reply to it."
 
 mail.SignUp = function (username, email) {
 

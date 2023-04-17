@@ -1,49 +1,50 @@
 ﻿<%- include('includes/head.ejs') %>
-<%- include('includes/nav.ejs') %>
+    <%- include('includes/nav.ejs') %>
 
-<body>
-    <div class="container-fluid">
-        <div class="row">
-            <h3 class="formTitle col">Add Members</h3>
-        </div>
-        <div class="row">
-            <form class="registerForm" name="registerForm" action="/addMember_add" method="POST">
-                <table border="1">
-                    <tr>
-                        <td>Name</td>
-                        <td><input type="text" name="name" id="name" required></td>
-                    </tr>
-                    <tr>
-                        <td>Email</td>
-                        <td><input type="email" name="email" id="email" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"></td>
-                    </tr>
-                    <tr>
-                        <td>Phone</td>
-                        <td><input type="text" name="phone" id="phone" required pattern="[0-9]{10}" 
-                            title="Phone number with 7-9 and remaing 9 digit with 0-9"></td>
-                    </tr>
-                </table>
-                <button type="submit" class="submitButton">Add</button>
-                <button type="reset" class="submitButton">Clear</button>
-            </form>
-        </div>
-    </div>
-</body>
-<script src="/public/js/validate.js"></script>
-<script>
-    setInterval(addMember, 100);
+        <body>
+            <div class="container-fluid">
+                <div class="row">
+                    <h3 class="formTitle col">Add Members</h3>
+                </div>
+                <div class="row">
+                    <form class="registerForm" name="registerForm" action="/addMember_add" method="POST">
+                        <table border="1">
+                            <tr>
+                                <td>Name</td>
+                                <td><input type="text" name="name" id="name" required></td>
+                            </tr>
+                            <tr>
+                                <td>Email</td>
+                                <td><input type="email" name="email" id="email" required
+                                        pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"></td>
+                            </tr>
+                            <tr>
+                                <td>Phone</td>
+                                <td><input type="text" name="phone" id="phone" required pattern="[0-9]{10}"
+                                        title="Phone number with 7-9 and remaing 9 digit with 0-9"></td>
+                            </tr>
+                        </table>
+                        <button type="submit" class="submitButton">Add</button>
+                        <button type="reset" class="submitButton">Clear</button>
+                    </form>
+                </div>
+            </div>
+        </body>
+        <script src="/public/js/validate.js"></script>
+        <script>
+            setInterval(addMember, 100);
 
-    document.querySelector("button").disabled = true;
-
-    function addMember() {
-        var getName = document.getElementById('name').value;
-        var getEmail = document.getElementById('email').value;
-        var getPhone = document.getElementById('phone').value;
-
-        if (getName == "" || getEmail == "" || getPhone == "") {
             document.querySelector("button").disabled = true;
-        } else {
-            document.querySelector("button").disabled = false;
-        }
-    }
-</script>
+
+            function addMember() {
+                var getName = document.getElementById('name').value;
+                var getEmail = document.getElementById('email').value;
+                var getPhone = document.getElementById('phone').value;
+
+                if (getName == "" || getEmail == "" || getPhone == "") {
+                    document.querySelector("button").disabled = true;
+                } else {
+                    document.querySelector("button").disabled = false;
+                }
+            }
+        </script>

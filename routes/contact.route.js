@@ -25,7 +25,6 @@ router.get("/delete/:email/:username",isAuth,isAuthAdmin, async function (req, r
 router.post("/mutipleDelete", isAuth, isAuthAdmin, async function(req,res,next) {
     var checkboxs = req.body.checkBox;
     db.deleteMultipleUsers(checkboxs);
-    // var users = await db.getMultipleUsernamesByEmail(checkboxs);
     res.redirect('/contact');
 });
 

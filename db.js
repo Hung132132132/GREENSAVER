@@ -1,13 +1,14 @@
 const mysql = require('mysql');
 const SqlString = require('sqlstring');
 const mail = require('./mail');
+const session = require('express-session');
 require('dotenv').config();
 
 const pool = mysql.createPool({
-    host: "sql12.freesqldatabase.com",
-    user: 'sql12600764',
-    password: 'mfiilPC6pe',
-    database: 'sql12600764'
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASS,
+    database: process.env.MYSQL_DB
 });
 
 let db = {};
@@ -28,11 +29,11 @@ db.getUserContact = (req, res, session) => {
     });
 };
 
-db.getUserApprove = (req, res, name) => {
+db.getUserApprove = (req, res, session) => {
     var sql = "SELECT * FROM member WHERE role = 'not approved' ORDER BY name";
     pool.query(sql, function (err, data, fields) {
         if (err) throw err;
-        res.render("approvePage", { userData: data, name: name });
+        res.render("approvePage", { userData: data, name: session.userName , role: session.role });
     });
 };
 
@@ -78,17 +79,27 @@ db.getUserByEmail = (email) => {
     });
 };
 
-db.getMultipleUsernamesByEmail = (email) => {
+db.sendMultipleDisapproveMail = (email) => {
     var sql = SqlString.format("SELECT * FROM member WHERE email IN (?)", [email]);
-    console.log(sql);
     pool.query(sql, [email], (error, users) => {
         if (error) {
             return error;
-        }
-        console.log(users[1].username);
+        };
         for (i = 0; i < users.length; i++) {
-            // mail.DisApprove(users[i].username, users[i].email);
-        }
+            mail.DisApprove(users[i].username, users[i].email);
+        };
+    });
+};
+
+db.sendMultipleApproveMail = (email) => {
+    var sql = SqlString.format("SELECT * FROM member WHERE email IN (?)", [email]);
+    pool.query(sql, [email], (error, users) => {
+        if (error) {
+            return error;
+        };
+        for (i = 0; i < users.length; i++) {
+            mail.Approve(users[i].username, users[i].email);
+        };
     });
 };
 
@@ -101,7 +112,7 @@ db.deleteUser = (email) => {
 };
 
 db.deleteMultipleUsers = async (email) => {
-    // await db.getMultipleUsernamesByEmail(email);
+    await db.sendMultipleDisapproveMail(email);
     var sql = SqlString.format("DELETE FROM member WHERE email IN (?)", [email]);
     console.log(sql);
     pool.query(sql, function (err, data) {
@@ -122,7 +133,8 @@ db.approveUser = (email) => {
     })
 };
 
-db.approveMultipleUsers = (email) => {
+db.approveMultipleUsers = async (email) => {
+    await db.sendMultipleApproveMail(email);
     var sql = SqlString.format("UPDATE member SET role = 'Staff' WHERE email IN (?)", [email]);
     console.log(sql);
     pool.query(sql, function (err, data) {
@@ -149,6 +161,7 @@ db.resetPass = (username, pass) => {
     });
 };
 
+//IN DEVELOPMENT
 db.generateOTP = (myLength) => {
     const chars =
         "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890";
@@ -160,5 +173,23 @@ db.generateOTP = (myLength) => {
     const randomString = randomArray.join("");
     return randomString;
 };
+
+db.getPosts = (req,res) => {
+    var sql = "SELECT * FROM posts"
+    pool.query(sql, (err,data) => {
+        if(err) throw err;
+        
+        res.render('forum', {posts: data})
+    })
+}
+
+db.publishPost = (title, content, username, date) => {
+    var sql = "INSERT INTO posts(title,content,username,date) VALUES (?,?,?,?)"
+    pool.query(sql, [title,content,username,date], (err,result) => {
+        if(err) throw err;
+
+        console.log(result.affectedRows + ' record has been changed')
+    })
+}
 
 module.exports = db;

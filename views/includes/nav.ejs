@@ -1,10 +1,28 @@
+
 <div class="w3-top w3-bar w3-black">
-    <div class="row">
-        <div class="col-10">
+    <button id="menu-btn-open" type="button" class="menu-button-open" onclick="openmenu()"></button>
+    <button id="menu-btn-close" type="button" class=" menu-button-close" onclick="closemenu()"></button>
+    <div id="menu" data-visible ="false">
+        <!-- <div class="menu">
+
+        </div> -->
+        <ul class="menu">
+            <li>
             <a class="w3-bar-item w3-button" href="/">Home</a>
-            <a class="w3-bar-item w3-button" href="/about">About</a>
-            <a class="w3-bar-item w3-button " href="/contact">Members</a>
-        </div>
+                
+            </li>
+            <li>
+                <a class="w3-bar-item w3-button" href="/about">About</a>
+
+            </li>
+            <li>
+                <a class="w3-bar-item w3-button " href="/forum">Forum</a>
+
+            </li>
+            <li>
+                <a class="w3-bar-item w3-button " href="/contact">Members</a>
+            </li>
+        </ul>
+        
     </div>
-    
 </div>

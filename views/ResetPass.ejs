@@ -1,92 +1,93 @@
 ﻿<!DOCTYPE html>
 <html>
 <%- include('includes/head.ejs') %>
-<%- include('includes/nav.ejs') %>
-<body>
-    <div class="container-fluid">
-        <div class="row">
-            <%- include('includes/sidepic1.ejs') %>
-            <div class="col-8">
-                <div class="row pinkBox width80">
-                    <div class="col"><h3 class="formTitle">Reset Password</h3></div>
-                </div>
-                <div class="row whiteBox width80">
-                    <form action="/resetpass/reset" method="POST" class="resetPassForm">
-                        <%- include('includes/errorNotice.ejs') %>
-                        <table border="1">
-                            <tr>
-                                <td>Username</td>
-                                <td><input type="text" id="username" name="username" required></td>
-                            </tr>
-                            <tr>
-                                <td>Phone number</td>
-                                <td><input type="text" id="phone" name="phone" pattern="[0-9]{10}" 
-                                    title="Phone number with 7-9 and remaing 9 digit with 0-9" required></td>
-                            </tr>
-                            <!-- <tr>
-                                <td>OTP code</td>
-                                <td><input type="text" id="otp" name="otp" required></td>
-                                <td><a href=""></td>
-                            </tr> -->
-                            <tr>
-                                <td>New passsword</td>
-                                <td><input type="password" id="newPass1" name="pass1" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
-                                    title="Must contain at least one  number and one uppercase and lowercase letter, and at least 8 or more characters"
-                                     required></td>
-                            </tr>
-                            <tr>
-                                <td>Retype new password</td>
-                                <td><input type="password" id="newPass2" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
-                                    title="Must contain at least one  number and one uppercase and lowercase letter, and at least 8 or more characters"
-                                     required></td>
-                            </tr>
-                        </table>
-                        <div class="homebuttons">
-                            <button type="submit" class="submitButton purpleButton width60">Reset Password</button>
-                            <button type="reset" class="submitButton purpleButton width20">Clear</button>
-                        </div>
-                    </form>
-                </div>
+    <%- include('includes/nav.ejs') %>
+
+        <body>
+            <div class="container-fluid">
                 <div class="row">
-                    <p class="errorMessage" id="errorLine1"></p>
+                    <%- include('includes/sidepic1.ejs') %>
+                        <div class="col-8">
+                            <div class="row pinkBox width80">
+                                <div class="col">
+                                    <h3 class="formTitle">Reset Password</h3>
+                                </div>
+                            </div>
+                            <div class="row whiteBox width80">
+                                <form action="/resetpass/reset" method="POST" class="resetPassForm">
+                                    <%- include('includes/errorNotice.ejs') %>
+                                        <table border="1">
+                                            <tr>
+                                                <td>Username</td>
+                                                <td><input type="text" id="username" name="username" required></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Phone number</td>
+                                                <td><input type="text" id="phone" name="phone" pattern="[0-9]{10}"
+                                                        title="Phone number with 7-9 and remaing 9 digit with 0-9"
+                                                        required></td>
+                                            </tr>
+                                            <tr>
+                                                <td>New passsword</td>
+                                                <td><input type="password" id="newPass1" name="pass1"
+                                                        pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                                                        title="Must contain at least one  number and one uppercase and lowercase letter, and at least 8 or more characters"
+                                                        required></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Retype new password</td>
+                                                <td><input type="password" id="newPass2"
+                                                        pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                                                        title="Must contain at least one  number and one uppercase and lowercase letter, and at least 8 or more characters"
+                                                        required></td>
+                                            </tr>
+                                        </table>
+                                        <div class="homebuttons">
+                                            <button type="submit" class="submitButton purpleButton width60">Reset
+                                                Password</button>
+                                            <button type="reset"
+                                                class="submitButton purpleButton width20">Clear</button>
+                                        </div>
+                                </form>
+                            </div>
+                            <div class="row">
+                                <p class="errorMessage" id="errorLine1"></p>
+                            </div>
+
+                        </div>
+                        <%- include('includes/sidepic2.ejs') %>
                 </div>
-
             </div>
-            <%- include('includes/sidepic2.ejs') %>
-        </div>
-    </div>
-</body>
-<script>
-    setInterval(addMember, 100);
+        </body>
+        <script>
+            setInterval(addMember, 100);
 
-    document.querySelector("button").disabled = true;
-
-    function addMember() {
-        var getUsername = document.getElementById('username').value;
-        var getPhone = document.getElementById('phone').value;
-        // var getOTP = document.getElementById('otp').value;
-        var getPass1 = document.getElementById('newPass1').value;
-        var getPass2 = document.getElementById('newPass2').value;
-
-        var errorMessagePass = document.getElementById('errorMessPassword');
-        var errorMessageWrapperPass = document.getElementById('errorMess-wrapper-pass');
-
-        errorMessageWrapperPass.style.display = 'none';
-        if (getUsername == "" || getPhone == "" || getPass1 == "" || getPass2 == "") {
             document.querySelector("button").disabled = true;
-            errorMessageWrapperPass.style.display = 'block';
-            errorMessagePass.innerHTML = "Please fill out the blank(s)";
-        } else if ( getPass1 != getPass2) {
-            document.querySelector("button").disabled = true;
-            errorMessageWrapperPass.style.display = 'block';
-            errorMessagePass.innerHTML = "Passwords don't match!";
-        } else {
-            document.querySelector("button").disabled = false;
-            errorMessageWrapperPass.style.display = 'none';
-        }
-    }
-</script>
+
+            function addMember() {
+                var getUsername = document.getElementById('username').value;
+                var getPhone = document.getElementById('phone').value;
+                // var getOTP = document.getElementById('otp').value;
+                var getPass1 = document.getElementById('newPass1').value;
+                var getPass2 = document.getElementById('newPass2').value;
+
+                var errorMessagePass = document.getElementById('errorMessPassword');
+                var errorMessageWrapperPass = document.getElementById('errorMess-wrapper-pass');
+
+                errorMessageWrapperPass.style.display = 'none';
+                if (getUsername == "" || getPhone == "" || getPass1 == "" || getPass2 == "") {
+                    document.querySelector("button").disabled = true;
+                    errorMessageWrapperPass.style.display = 'block';
+                    errorMessagePass.innerHTML = "Please fill out the blank(s)";
+                } else if (getPass1 != getPass2) {
+                    document.querySelector("button").disabled = true;
+                    errorMessageWrapperPass.style.display = 'block';
+                    errorMessagePass.innerHTML = "Passwords don't match!";
+                } else {
+                    document.querySelector("button").disabled = false;
+                    errorMessageWrapperPass.style.display = 'none';
+                }
+            }
+        </script>
+
 </html>
-
-
-
