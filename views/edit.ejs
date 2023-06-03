@@ -1,88 +1,83 @@
 <%- include('includes/head.ejs') %>
     <%- include('includes/nav.ejs') %>
+        <%- include('includes/back-to-top.ejs')%>
+            <%- include('includes/preloader.ejs')%>
 
-        <body>
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col">
-                        <h3 class="formTitle">Edit Members</h3>
-                    </div>
-                </div>
-                <div class="row">
-                    <form class="registerForm" action="/contact/edited" method="POST">
-                        <table border="1">
-                            <% if(userData.length !=0){ var i=1; userData.forEach(function(data){ %>
-                                <tr>
-                                    <td>Name</td>
-                                    <td><input type="text" name="name" id="name" value="<%=data.name%>" readonly="true">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Email</td>
-                                    <td><input type="text" name="email" id="email" value="<%=data.email%>"
-                                            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" readonly="true"></td>
-                                </tr>
-                                <tr>
-                                    <td>Phone</td>
-                                    <td><input type="text" name="phone" id="phone" value="<%=data.phone%>"
-                                            pattern="[0-9]{10}"
-                                            title="Phone number with 7-9 and remaing 9 digit with 0-9"></td>
-                                </tr>
-                                <tr>
-                                    <td>Role</td>
-                                    <td>
-                                        <select class="inputForm" name="role" id="">
-                                            <% if (data.role=='Staff' ){ %>
-                                                <option value="Staff" selected>Staff</option>
-                                                <option value="Admin">Admin</option>
-                                                <% } else {%>
-                                                    <option value="Staff">Staff</option>
-                                                    <option value="Admin" selected>Admin</option>
-                                                    <% } %>
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Area</td>
-                                    <td>
-                                        <select class="inputForm" name="area" id="">
-                                            <% if (data.area=='VIETNAM' ){ %>
-                                                <option value="VIETNAM" selected>VIETNAM</option>
-                                                <option value="UNITED KINGDOM">UNITED KINGDOM</option>
-                                                <% } else {%>
-                                                    <option value="VIETNAM">VIETNAM</option>
-                                                    <option value="UNITED KINGDOM" selected>UNITED KINGDOM</option>
-                                                    <% } %>
-                                        </select>
-                                    </td>
-                                </tr>
-                                <% i++; }); } %>
-                        </table>
-                        <div class="registerButton">
-                            <button type="submit">Edit</button>
-                            <button type="reset">Reset</button>
+                <body>
+                    <div class="container-fluid">
+                        <div class="main">
+                            <div class="whiteBox formCon">
+                                <h3 class="formTitle">Edit Members</h3>
+                            </div>
+                            <div class="whiteBox formCon">
+                                <form class="registerForm" action="/contact/edited" method="POST">
+                                    <div class="form">
+                                        <% if(userData.length !=0){ var i=1; userData.forEach(function(data){ %>
+                                            <td>Name</td>
+                                            <td><input type="text" name="name" id="name" value="<%=data.name%>"
+                                                    readonly="true">
+                                            </td>
+                                            <td>Email</td>
+                                            <td><input type="text" name="email" id="email" value="<%=data.email%>"
+                                                    pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" readonly="true">
+                                            </td>
+                                            <td>Phone</td>
+                                            <td><input type="text" name="phone" id="phone" value="<%=data.phone%>"
+                                                    pattern="[0-9]{10}"
+                                                    title="Phone number with 7-9 and remaing 9 digit with 0-9"></td>
+                                            <td>Role</td>
+                                            <td>
+                                                <select class="inputForm" name="role" id="">
+                                                    <% if (data.role=='Staff' ){ %>
+                                                        <option value="Staff" selected>Staff</option>
+                                                        <option value="Admin">Admin</option>
+                                                        <% } else {%>
+                                                            <option value="Staff">Staff</option>
+                                                            <option value="Admin" selected>Admin</option>
+                                                            <% } %>
+                                                </select>
+                                            </td>
+                                            <td>Area</td>
+                                            <td>
+                                                <select class="inputForm" name="area" id="">
+                                                    <% if (data.area=='VIETNAM' ){ %>
+                                                        <option value="VIETNAM" selected>VIETNAM</option>
+                                                        <option value="UNITED KINGDOM">UNITED KINGDOM</option>
+                                                        <% } else {%>
+                                                            <option value="VIETNAM">VIETNAM</option>
+                                                            <option value="UNITED KINGDOM" selected>UNITED KINGDOM
+                                                            </option>
+                                                            <% } %>
+                                                </select>
+                                            </td>
+                                            <% i++; }); } %>
+                                    </div>
+                                    <div class="homebuttons">
+                                        <button type="submit" class="submitButton purpleButton width40">Edit</button>
+                                        <button type="reset" class="submitButton purpleButton width40">Reset</button>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
-                    </form>
-                </div>
-            </div>
-        </body>
-        <script>
-            var aBlank = 0;
-            var paraBlamk = document.createElement("div");
+                    </div>
+                </body>
+                <script>
+                    var aBlank = 0;
+                    var paraBlamk = document.createElement("div");
 
-            setInterval(addMember, 100);
+                    setInterval(addMember, 100);
 
-            document.querySelector("button").disabled = true;
-
-            function addMember() {
-                var getName = document.getElementById('name').value;
-                var getEmail = document.getElementById('email').value;
-                var getPhone = document.getElementById('phone').value;
-
-                if (getName == "" || getEmail == "" || getPhone == "") {
                     document.querySelector("button").disabled = true;
-                } else {
-                    document.querySelector("button").disabled = false;
-                }
-            }
-        </script>
+
+                    function addMember() {
+                        var getName = document.getElementById('name').value;
+                        var getEmail = document.getElementById('email').value;
+                        var getPhone = document.getElementById('phone').value;
+
+                        if (getName == "" || getEmail == "" || getPhone == "") {
+                            document.querySelector("button").disabled = true;
+                        } else {
+                            document.querySelector("button").disabled = false;
+                        }
+                    }
+                </script>

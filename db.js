@@ -21,11 +21,11 @@ db.insertUser = (name, phone, email, username, password, area) => {
     });
 };
 
-db.getUserContact = (req, res, session) => {
+db.getUserContact = (req, res, session, errMess) => {
     var sql = "SELECT * FROM member WHERE role != 'not approved' ORDER BY name";
     pool.query(sql, function (err, data, fields) {
         if (err) throw err;
-        res.render("Contact", { userData: data, name: session.userName, role: session.role });
+        res.render("Contact", { userData: data, name: session.userName, role: session.role, errMess: errMess });
     });
 };
 
@@ -33,9 +33,17 @@ db.getUserApprove = (req, res, session) => {
     var sql = "SELECT * FROM member WHERE role = 'not approved' ORDER BY name";
     pool.query(sql, function (err, data, fields) {
         if (err) throw err;
-        res.render("approvePage", { userData: data, name: session.userName , role: session.role });
+        res.render("approvePage", { userData: data, name: session.userName, role: session.role });
     });
 };
+
+db.getUserInfo = (req,res,username, errMess) => {
+    var sql = "SELECT * FROM member WHERE username = ?";
+    pool.query(sql,[username], (err, data, fields) => {
+        if (err) throw err;
+        res.render("personalInfo", { userData: data, errMess: errMess});
+    });
+}
 
 db.getUserEdit = (req, res, email) => {
     var sql = "SELECT * FROM member WHERE email = ?";
@@ -47,6 +55,16 @@ db.getUserEdit = (req, res, email) => {
 };
 
 db.getUserByUsername = (username) => {
+    return new Promise((resolve, reject) => {
+        pool.query("SELECT * FROM member WHERE username = ?", [username], (error, users) => {
+            if (error) {
+                return reject(error);
+            }
+            return resolve(users[0]);
+        });
+    });
+};
+db.getUserByUsernameChangePass = (username) => {
     return new Promise((resolve, reject) => {
         pool.query("SELECT * FROM member WHERE username = ?", [username], (error, users) => {
             if (error) {
@@ -122,7 +140,7 @@ db.deleteMultipleUsers = async (email) => {
 };
 
 db.approveUser = (email) => {
-    return new Promise((resolve,reject) => {
+    return new Promise((resolve, reject) => {
         var sql = "UPDATE member SET role = 'Staff' WHERE email = ?";
         pool.query(sql, [email], function (err, users) {
             if (err) {
@@ -143,8 +161,8 @@ db.approveMultipleUsers = async (email) => {
     });
 };
 
-db.editUser = (phone,area,role,email) => {
-    var sql = "UPDATE member SET phone = '" + phone + "', area = '" + area 
+db.editUser = (phone, area, role, email) => {
+    var sql = "UPDATE member SET phone = '" + phone + "', area = '" + area
         + "', role = '" + role + "' WHERE email = '" + email + "'";
     pool.query(sql, function (err, data) {
         if (err) throw err;
@@ -174,22 +192,75 @@ db.generateOTP = (myLength) => {
     return randomString;
 };
 
-db.getPosts = (req,res) => {
-    var sql = "SELECT * FROM posts"
-    pool.query(sql, (err,data) => {
-        if(err) throw err;
-        
-        res.render('forum', {posts: data})
+db.getPosts = (req, res) => {
+    var sql = "SELECT * FROM posts ORDER BY date DESC"
+    pool.query(sql, (err, data) => {
+        if (err) throw err;
+
+        res.render('forum', { posts: data })
     })
 }
 
-db.publishPost = (title, content, username, date) => {
-    var sql = "INSERT INTO posts(title,content,username,date) VALUES (?,?,?,?)"
-    pool.query(sql, [title,content,username,date], (err,result) => {
-        if(err) throw err;
+db.publishPost = (title, content, username, date, img) => {
+    var sql = "INSERT INTO posts(title,content,username,date,img) VALUES (?,?,?,?,?)"
+    pool.query(sql, [title, content, username, date, img], (err, result) => {
+        if (err) throw err;
 
         console.log(result.affectedRows + ' record has been changed')
     })
 }
+
+db.getRegisterByEmail = (email) => {
+    return new Promise((resolve, reject) => {
+        pool.query("SELECT * FROM registration WHERE email = ?", [email], (error, users) => {
+            if (error) {
+                return reject(error);
+            }
+            if (users[0]){
+                return resolve(users[0].OTP);
+            } else {
+                return resolve(users[0]);
+            }
+        });
+    });
+}
+
+db.saveOTP = (email, otp) => {
+    return new Promise((resolve, reject) => {
+        var sql = "INSERT INTO registration(email,OTP) VALUES (?,?)";
+        pool.query(sql, [email, otp], (err, result) => {
+            if (err) throw err;
+
+            console.log(result.affectedRows + ' record has been changed')
+            resolve();
+        });
+})};
+
+db.deleteOTP = async (email) => {
+    return new Promise((resolve, reject) => {
+        var sql = 'DELETE FROM registration WHERE email = ?';
+        pool.query(sql, [email], (err, result) => {
+            if (err) throw err;
+
+            console.log(result.affectedRows + ' has been deleted');
+            resolve();
+        })
+
+    })
+}
+db.newOTP = (email, otp) => {
+    db.deleteOTP(email)
+        .then(() => db.saveOTP(email, otp))
+        .then(() => mail.sendOTP(email,otp))
+}
+db.subscribe = (email) => {
+    var sql = "INSERT INTO subscription (email) VALUES ('" + email + "')"
+    pool.query(sql, (err, results) => {
+        if (err) throw err;
+
+        console.log(results.affectedRows + ' has been added to subscription')
+    })
+}
+
 
 module.exports = db;

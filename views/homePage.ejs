@@ -1,101 +1,168 @@
 <html>
 <%- include('includes/head.ejs') %>
     <%- include('includes/nav.ejs') %>
+        <%- include('includes/back-to-top.ejs')%>
+            <%- include('includes/preloader.ejs')%>
 
-        <body>
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="pictureSide col">
-                        <img class="sidePicture"
-                            src="https://static.vnappmob.com/soro/lolivi/1540018689-A384DF84-FE75-4641-91EA-833D10BF92B7.jpg">
-                    </div>
-                    <div class="loginSide col">
-                        <div class="pinkBox">
-                            <h1 class="content fontGeneva"><b>LOOKS WONDERFUL?</b></h1>
-                            <p class="content fontGeneva">
-                                <i>But have you ever try to save it?</i>
-                            </p>
-                        </div>
-                        <div class="pContent fontGeneva whiteBox" id="content"></div>
-                        <% if(session==null){ %>
-                            <div class="whiteBox" id="loginform">
-                                <form action="/auth" method="POST" style="width: 100%;">
-                                    <% if (errMess !=null){ %>
+                <body>
+                    <div class="container-fluid">
+                        <div class="pictureSide" id="pictureSide">
+                            <% if (errMess !=null){ %>
 
-                                        <div id='errorMess-wrapper'
-                                            class="alert alert-primary alert-dismissible fade show" role="alert">
+                                <div id='errorMess-wrapper' class="alert alert-primary alert-dismissible fade show"
+                                    role="alert">
 
-                                            <strong id='errorMess'>
-                                                <%=errMess%>
-                                            </strong>
-                                        </div>
+                                    <strong id='errorMess'>
+                                        <%=errMess%>
+                                    </strong>
+                                </div>
 
-                                        <% } %>
-                                            <div class="loginPopup">
-                                                <div class="formPopup" id="popupForm">
-                                                    <div class="formContainer">
-                                                        <h2>Please Log in</h2>
-                                                        <label for="username">
-                                                            <strong>Username</strong>
-                                                        </label>
-                                                        <input class="loginForm" type="text" name="username"
-                                                            placeholder="Username" required="1">
-                                                        <label for="password">
-                                                            <strong>Password</strong>
-                                                        </label>
-                                                        <input class="loginForm" type="password" name="password"
-                                                            pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
-                                                            title="Must contain at least one  number and one uppercase and lowercase letter, and at least 8 or more characters"
-                                                            placeholder="Password" required="1">
-                                                        <button type="submit" class="btn">Log in</button>
-                                                        <button type="button" class="btn cancel"
-                                                            onclick="closeForm()">Close</button>
-                                                    </div>
+                                <% } %>
+                                    <div class="home-section">
+                                        <h1 class="hometitle">
+                                            <!-- <b>LOOKS WONDERFUL?</b> -->
+                                            <b>GREENSAVER</b>
+                                        </h1>
+                                        <% if(session==null){ %>
+                                            <button class="get-start" type="button" onclick="openForm()">Get
+                                                started</button>
+                                    </div>
+                                    <form action="/auth" method="POST" style="width: 100%;">
+                                        <!-- <div id="loginform">
+
+                        </div> -->
+                                        <div class="loginPopup">
+                                            <div data-visible="false" class="formPopup" id="popupForm">
+                                                <div class="formContainer">
+                                                    <label for="username">
+                                                        <strong>Username</strong>
+                                                    </label>
+                                                    <input class="loginForm" type="text" name="username" required="1">
+                                                    <label for="password">
+                                                        <strong>Password</strong>
+                                                    </label>
+                                                    <input class="loginForm" type="password" name="password"
+                                                        pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                                                        title="Must contain at least one  number and one uppercase and lowercase letter, and at least 8 or more characters"
+                                                        required="1" id="myInput">
+                                                        <span style="float:left">
+                                                            <input type="checkbox" onclick="myFunction()"> Show Password
+                                                        </span>
+                                                    <button type="submit" class="btn">Sign in</button>
+                                                    <button type="button" class="btn cancel"
+                                                        onclick="closeForm()"></button>
+                                                    <a href="/register" class=" reg-and-reset ">Sign up</a>
+                                                    <a href="/resetPass" class=" reg-and-reset ">Forgot password?</a>
                                                 </div>
                                             </div>
-                                            <div class="homebuttons">
-                                                <button class="purpleButton" type="button" onclick="openForm()">Login</button>
-                                                <a href="/register" class=" purpleButton ">Register</a>
-                                                <a href="/resetPass" class=" purpleButton ">Reset
-                                                    Password</a>
-                                            </div>
-                                </form>
-                            </div>
-                            <% } %>
+                                        </div>
+                                    </form>
+                                    <% } %>
+                        </div>
                     </div>
-                </div>
-            </div>
-        </body>
-        <script type="text/babel">
-            function Content() {
-                return (
-                    <div>
-                        <p>
-                            <b>Deforestation</b> is the clearing, destroying, or otherwise removal of trees through
-                            deliberate, natural,
-                            or accidental means. It can occur in any area densely populated by trees and other plant
-                            life, but the majority of
-                            it is currently happening in the Amazon rainforest.
-                        </p> &nbsp;
-                        <p><b>The loss of trees</b> and other vegetation can cause climate change, desertification,
-                            soil erosion, fewer crops,
-                            flooding, increased greenhouse gases in the atmosphere, and a host of problems for
-                            Indigenous people.</p>&nbsp;
-                        <p><b>Deforestation</b> occurs for a number of reasons. The most common reason is
-                            agriculture,
-                            with 80% of
-                            deforestation resulting from extensive cattle ranching, and logging for materials and
-                            development. It has been
-                            happening for thousands of years, arguably since people began converting from
-                            hunter/gatherer to agricultural
-                            based societies, and required larger, unobstructed tracks of land to accommodate cattle,
-                            crops, and housing.
-                            However, after the onset of the modern era, it became an epidemic.
+                    <div class="pContent">
+                        <p style="font-size: xx-large;"><b>LOOKS WONDERFUL?</b></p>
+                        <p class=" fontGeneva">
+                            <i>But have you ever try to save it?</i>
                         </p>
+                        <div class="whiteBox fontGeneva" id="content">
+                            <div>
+                                <iframe width="560" height="315" src="https://www.youtube.com/embed/Ic-J6hcSKa8"
+                                    title="YouTube video player" frameborder="0"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                    allowfullscreen></iframe>
+                                <p>
+                                    <b>Deforestation</b> is the clearing, destroying, or otherwise removal of trees
+                                    through
+                                    deliberate, natural,
+                                    or accidental means. It can occur in any area densely populated by trees and other
+                                    plant
+                                    life, but the majority of
+                                    it is currently happening in the Amazon rainforest.
+                                </p> &nbsp;
+                                <p><b>The loss of trees</b> and other vegetation can cause climate change,
+                                    desertification,
+                                    soil erosion, fewer crops,
+                                    flooding, increased greenhouse gases in the atmosphere, and a host of problems for
+                                    Indigenous people.</p>&nbsp;
+                                <p><b>Deforestation</b> occurs for a number of reasons. The most common reason is
+                                    agriculture,
+                                    with 80% of
+                                    deforestation resulting from extensive cattle ranching, and logging for materials
+                                    and
+                                    development. It has been
+                                    happening for thousands of years, arguably since people began converting from
+                                    hunter/gatherer to agricultural
+                                    based societies, and required larger, unobstructed tracks of land to accommodate
+                                    cattle,
+                                    crops, and housing.
+                                    However, after the onset of the modern era, it became an epidemic.
+                                </p>
+                                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Magnam corrupti suscipit,
+                                    commodi fuga nobis accusantium aliquid. Blanditiis, id ducimus, nostrum nisi omnis
+                                    debitis quaerat tempore totam, deserunt nobis recusandae odio.</p>
+                                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Magnam corrupti suscipit,
+                                    commodi fuga nobis accusantium aliquid. Blanditiis, id ducimus, nostrum nisi omnis
+                                    debitis quaerat tempore totam, deserunt nobis recusandae odio.</p>
+                                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Magnam corrupti suscipit,
+                                    commodi fuga nobis accusantium aliquid. Blanditiis, id ducimus, nostrum nisi omnis
+                                    debitis quaerat tempore totam, deserunt nobis recusandae odio.</p>
+                                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Magnam corrupti suscipit,
+                                    commodi fuga nobis accusantium aliquid. Blanditiis, id ducimus, nostrum nisi omnis
+                                    debitis quaerat tempore totam, deserunt nobis recusandae odio.</p>
+                                <p>
+                                    Deforestation is a major issue that has been plaguing the planet for decades. As
+                                    trees are cut down at an alarming rate to make way for development and agriculture,
+                                    the world's forests are disappearing at an unprecedented rate. The effects of
+                                    deforestation are wide-ranging and include soil erosion, loss of biodiversity, and
+                                    climate change.<br><br>
+                                    Soil erosion is a major consequence of deforestation. Without trees to hold the soil
+                                    in place, rainfall can wash away the topsoil, leading to soil degradation and
+                                    decreased productivity of the land. This can have a devastating impact on local
+                                    communities that rely on the land for their livelihoods.<br><br>
+                                    Deforestation also leads to the loss of biodiversity. Forests are home to countless
+                                    species of plants and animals, many of which are endemic to specific regions. As
+                                    forests are cleared, these habitats are destroyed, and many species are lost
+                                    forever. This has a cascading effect on ecosystems, leading to imbalances that can
+                                    have far-reaching consequences.<br><br>
+                                    Perhaps the most significant impact of deforestation is climate change. Trees play a
+                                    critical role in regulating the Earth's climate by absorbing carbon dioxide from the
+                                    atmosphere. As forests are cut down, this carbon sink is reduced, leading to
+                                    increased levels of greenhouse gases in the atmosphere. This contributes to global
+                                    warming, leading to more frequent and intense weather events, rising sea levels, and
+                                    other environmental catastrophes.<br><br>
+                                    One solution to combat deforestation is the project called GREENSAVER. This
+                                    initiative aims to promote reforestation and sustainable land use practices. By
+                                    planting trees and restoring degraded lands, GREENSAVER aims to improve the health
+                                    of ecosystems, protect biodiversity, and mitigate climate change.
+                                    GREENSAVER's approach is not just about planting trees, but also about engaging
+                                    local communities in sustainable land management practices. Through education and
+                                    training programs, local communities are empowered to take control of their natural
+                                    resources and create a more sustainable future.
+                                    In conclusion, deforestation is a global issue that requires immediate action. The
+                                    GREENSAVER project is a promising solution that can help combat deforestation and
+                                    promote sustainable land use practices. By working together, we can protect the
+                                    planet and ensure a healthy future for generations to come. It is essential that we
+                                    take action now to preserve our forests and protect the Earth's natural resources
+                                    for future generations.<br><br>
+
+                                </p>
+                            </div>
+                        </div>
                     </div>
-                )
-            };
-            ReactDOM.render(<Content />, document.getElementById('content'));
-        </script>
+
+                    </div>
+                    <script>
+                        function myFunction() {
+                            var x = document.getElementById("myInput");
+                            if (x.type === "password") {
+                                x.type = "text";
+                            } else {
+                                x.type = "password";
+                            }
+                        }
+                    </script>
+                    <%- include('includes/footer.ejs')%>
+                </body>
 
 </html>

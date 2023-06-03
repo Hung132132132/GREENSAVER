@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<%- include('includes/head.ejs') %>
+    <%- include('includes/nav.ejs') %>
+        <%- include('includes/back-to-top.ejs')%>
+            <%- include('includes/preloader.ejs')%>
+
+                <body>
+                    <div class="container-fluid">
+                        <% if (errMess !=null){ %>
+
+                            <div id='errorMess-wrapper' class="alert alert-primary alert-dismissible fade show"
+                                role="alert">
+
+                                <strong id='errorMess'>
+                                    <%=errMess%>
+                                </strong>
+                            </div>
+
+                            <% } %>
+                                <% userData.forEach(function(data) { %>
+                                    <section class="vh-100">
+                                        <div class="container py-5 h-100">
+                                            <div class="row d-flex justify-content-center align-items-center h-100">
+                                                <div class="col col-lg-6 mb-4 mb-lg-0">
+                                                    <div class="card mb-3" style="border-radius: .5rem;">
+                                                        <div class="row g-0">
+                                                            <div class="col-md-4 gradient-custom text-center text-black"
+                                                                style="border-top-left-radius: .5rem; border-top-right-radius: .5rem;">
+                                                                <img src="/logo.png" alt="Avatar" class="img-fluid my-5"
+                                                                    style="width: 80px;" />
+                                                                <h5>
+                                                                    <%=data.name%>
+                                                                </h5>
+                                                                <p>
+                                                                    <%=data.role%>
+                                                                </p>
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <div class="card-body p-4">
+                                                                    <h6>Information</h6>
+                                                                    <hr class="mt-0 mb-4">
+                                                                    <div class="row pt-1">
+                                                                        <div class="col-6 mb-3">
+                                                                            <h6>Email</h6>
+                                                                            <p id="email">
+                                                                                <%=data.email%>
+                                                                            </p>
+                                                                        </div>
+                                                                        <div class="col-6 mb-3">
+                                                                            <h6>Phone</h6>
+                                                                            <p>
+                                                                                <%=data.phone%>
+                                                                            </p>
+                                                                        </div>
+                                                                        <div class="col-6 mb-3">
+                                                                            <h6>Area</h6>
+                                                                            <p>
+                                                                                <%=data.area%>
+                                                                            </p>
+                                                                        </div>
+                                                                        <div class="col-6 mb-3">
+                                                                            <h6>Password</h6>
+                                                                            <button class="purpleButton"
+                                                                                onclick="openForm()">Change password</button>
+                                                                            <form action="/forum/changepass"
+                                                                                method="POST" style="width: 100%;">
+                                                                                <div class="loginPopup">
+                                                                                    <div data-visible="false"
+                                                                                        class="formPopup"
+                                                                                        id="popupForm">
+                                                                                        <div class="formContainer">
+                                                                                            <h1>Change password</h1>
+                                                                                                <div id='errorMess-wrapper-pass' class="alert alert-primary alert-dismissible fade show" role="alert">
+                                                                                                    <strong id='errorMessPassword'></strong>
+                                                                                                </div>
+                                                                                            <input class="loginForm"
+                                                                                                type="password"
+                                                                                                name="curPass"
+                                                                                                pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                                                                                                title="Must contain at least one  number and one uppercase and lowercase letter, and at least 8 or more characters"
+                                                                                                placeholder="Current password"
+                                                                                                required>
+                                                                                            <input class="loginForm"
+                                                                                                type="password"
+                                                                                                name="newPass"
+                                                                                                pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                                                                                                title="Must contain at least one  number and one uppercase and lowercase letter, and at least 8 or more characters"
+                                                                                                placeholder="New password"
+                                                                                                id="newPass1" required>
+                                                                                            <input class="loginForm"
+                                                                                                type="password"
+                                                                                                pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                                                                                                title="Must contain at least one  number and one uppercase and lowercase letter, and at least 8 or more characters"
+                                                                                                placeholder="Confirm password"
+                                                                                                id="newPass2" required>
+                                                                                            <button type="submit"
+                                                                                                class="btn">Change
+                                                                                                password</button>
+                                                                                            <button type="button"
+                                                                                                class="btn cancel"
+                                                                                                onclick="closeForm()"></button>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </form>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </section>
+                                    <% }) %>
+                    </div>
+                    <script>
+                        setInterval(addMember, 100);
+
+                        document.querySelector("button[type=submit]").disabled = true;
+
+                        function addMember() {
+                            var getPass1 = document.getElementById('newPass1').value;
+                            var getPass2 = document.getElementById('newPass2').value;
+
+                            var errorMessagePass = document.getElementById('errorMessPassword');
+                            var errorMessageWrapperPass = document.getElementById('errorMess-wrapper-pass');
+
+                            errorMessageWrapperPass.style.display = 'none';
+                            if (getPass1 == "" || getPass2 == "") {
+                                document.querySelector("button[type=submit]").disabled = true;
+                                errorMessageWrapperPass.style.display = 'block';
+                                errorMessagePass.innerHTML = "Please fill out the blank(s)";
+                            } else if (getPass1 != getPass2) {
+                                document.querySelector("button[type=submit]").disabled = true;
+                                errorMessageWrapperPass.style.display = 'block';
+                                errorMessagePass.innerHTML = "Passwords don't match!";
+                            } else {
+                                document.querySelector("button[type=submit]").disabled = false;
+                                errorMessageWrapperPass.style.display = 'none';
+                            }
+                        }
+                    </script>
+                </body>
+
+</html>

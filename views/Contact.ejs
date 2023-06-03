@@ -3,99 +3,135 @@
 <%- include('includes/head.ejs') %>
     <%- include('includes/nav.ejs') %>
 
-        <body>
+        <body ontouchstart="">
             <div class="container-fluid">
-                <div class="row">
-                    <div class="col-5">
+                <div>
+                    <div class="con-and-app">
                         <p><b>Welcome <%=name%>!</b></p>
-                    </div>
-                    <div class="col-7">
-                        <a class="purpleButton" href="/logout" style="float: right;">Log Out</a>
                         <% if(role=='Admin' ) { %>
-                            <a class="purpleButton" href="/approve" style="float: right;">Approve</a>
+                            <a class="purpleButton" href="/approve"
+                                style="float: right; border-top-left-radius: 0;border-top-right-radius: 0;">Approve</a>
                             <% } %>
                     </div>
-                </div>
-                <% if(userData.length !=0) { %>
-                    <form method="POST">
-                        <div class="whiteBox searchbar">
-                            <%- include('includes/searchbar.ejs') %>
-                            <% if(role=='Admin' ) { %>
-                                <div class="select-section">
-                        
-                                    <button type="button" id="selectButton" class="purpleButton" style=" width: 100%;"
-                                        onclick="startSelect()">Select</button>
-                                    <div id="countBox" class="pinkBox">
-                                        <div>Selected (please select more than one): </div>
-                                        <div id="numberSelected" style="font-weight: bold;"></div>
-                                        <button type="submit" id="deleteButton"
-                                            formaction="/contact/mutipleDelete">Delete</button>
-                                        <button type="button" onclick="cancleSelect()">Cancle</button>
-                                    </div>
-                                </div>
-                                <% } %>
+                    <% if(userData.length !=0) { %>
+                        <form method="POST">
+                            <div class="whiteBox searchbar">
+                                <%- include('includes/searchbar.ejs') %>
+                                    <% if(role=='Admin' ) { %>
+                                        <div class="select-section">
 
-                        </div>
-                        <div class="whiteBox row">
-                            <table class="table2 " id="contactList" border="1">
-                                <tr>
-                                    <th>No.</th>
-                                    <th>Name</th>
-                                    <th>Email</th>
-                                    <th>Phone Number</th>
-                                    <th>Area</th>
-                                    <th>Role</th>
-                                    <% if(role=='Admin' ){ %>
-                                        <th>Delete</th>
-                                        <th>Edit</th>
+                                            <button type="button" id="selectButton" class="purpleButton"
+                                                onclick="startSelect()">Select</button>
+                                            <div id="countBox" class='purpleButton'>
+                                                <div>
+                                                    Selected (please select more than one):
+                                                </div>
+                                                <div id="numberSelected" style="font-weight: bold;"></div>
+                                                <button type="button" onclick="allSelect()">Select all</button>
+                                                <button type="button" onclick="allDeselect()">Deselect all</button>
+                                                <button type="submit" id="deleteButton"
+                                                    formaction="/contact/mutipleDelete">Delete</button>
+                                                <button type="button" onclick="cancleSelect()">Cancel</button>
+                                            </div>
+                                        </div>
                                         <% } %>
-                                </tr>
-                                <% if(userData.length !=0){ var i=1; userData.forEach(function(data){
-                                    if(data.role !='not approved' ){ %>
-                                    <tr id="<%=data.name%>" class="<%=data.area%>">
-                                        <td>
-                                            <%=i%>
-                                        </td>
-                                        <td>
-                                            <%=data.name%>
-                                        </td>
-                                        <td>
-                                            <%=data.email%>
-                                        </td>
-                                        <td>
-                                            <%=data.phone%>
-                                        </td>
-                                        <td>
-                                            <%=data.area%>
-                                        </td>
-                                        <td>
-                                            <%=data.role%>
-                                        </td>
-                                        <% if(role=='Admin' ){ %>
-                                            <td>
-                                                <a class="red"
-                                                    href="/contact/delete/<%=data.email%>/<%=data.username%>">Delete</a>
-                                            </td>
-                                            <td><a class="red" href="/contact/edit/<%=data.email%>">Edit</a>
-                                            </td>
-                                            <td>
-                                                <input type="checkbox" name="checkBox" id="<%=i%>"
-                                                    class="checkbox" onclick="select()" value="<%=data.email%>">
-                                            </td>
-                                            <% } %>
-                                    </tr>
 
-                                    <% i++; } }); } %>
-                            </table>
+                            </div>
+                            <div class="whiteBox row">
+                                <% if (errMess !=null){ %>
 
-                        </div>
-                    </form>
-                    <% } else { %>
-                        <h2>NOT FOUND</h2>
-                        <% } %>
+                                    <div id='errorMess-wrapper' class="alert alert-primary alert-dismissible fade show"
+                                        role="alert" style="display: block;">
+
+                                        <strong id='errorMess'>
+                                            <%=errMess%>
+                                        </strong>
+                                    </div>
+
+                                    <% } %>
+                                        <table class="table2 " id="contactList">
+                                            <tr>
+                                                <th></th>
+                                                <th>No.</th>
+                                                <th>Name</th>
+                                                <th>Email</th>
+                                                <th>Phone Number</th>
+                                                <th>Area</th>
+                                                <th>Role</th>
+                                                <% if(role=='Admin' ){ %>
+                                                    <th></th>
+                                                    <% } %>
+                                            </tr>
+                                            <% if(userData.length !=0){ var i=1; userData.forEach(function(data){
+                                                if(data.role !='not approved' ){ %>
+                                                <tr id="<%=data.name%>" class="<%=data.area%>">
+                                                    <% if(role=='Admin' ){ %>
+                                                        <td>
+                                                            <input type="checkbox" name="checkBox" id="<%=i%>"
+                                                                class="checkbox" onclick="select()"
+                                                                value="<%=data.email%>">
+                                                        </td>
+                                                        <% } %>
+                                                            <td>
+                                                                <%=i%>
+                                                            </td>
+                                                            <td>
+                                                                <%=data.name%>
+                                                            </td>
+                                                            <td>
+                                                                <%=data.email%>
+                                                            </td>
+                                                            <td>
+                                                                <%=data.phone%>
+                                                            </td>
+                                                            <td>
+                                                                <%=data.area%>
+                                                            </td>
+                                                            <td>
+                                                                <%=data.role%>
+                                                            </td>
+                                                            <% if(role=='Admin' ){ %>
+                                                                <td>
+                                                                    <button type="button" class="DEAbutton"
+                                                                        onclick="openDEA('<%=i%>')"></button>
+                                                                    <div class="DEA" id="<%=i%>dea"
+                                                                        data-visible="false">
+                                                                        <a href="/contact/edit/<%=data.email%>">Edit</a>
+                                                                        <a
+                                                                            href="/contact/delete/<%=data.email%>/<%=data.username%>">Remove</a>
+                                                                    </div>
+                                                                </td>
+                                                                <% } %>
+                                                </tr>
+
+                                                <% i++; } }); } %>
+                                        </table>
+
+                            </div>
+                        </form>
+                        <% } else { %>
+                            <h2>NOT FOUND</h2>
+                            <% } %>
+                </div>
             </div>
         </body>
         <script>
+            openDEA = (id) => {
+                var DEA = document.getElementById(id + 'dea');
+                var visibility = DEA.getAttribute('data-visible');
+                if (visibility === 'false') {
+                    DEA.setAttribute('data-visible', true);
+                } else {
+                    DEA.setAttribute('data-visible', false);
+                }
+            }
+            closeDEA = (id) => {
+                var DEA = document.getElementById(id + 'dea');
+                var visibility = DEA.getAttribute('data-visible');
+
+                DEA.setAttribute('data-visible', false);
+            }
+
             var selectButton = document.getElementById('selectButton');
             var approveButton = document.getElementById('approveButton');
             var deleteButton = document.getElementById('deleteButton');
@@ -139,6 +175,19 @@
                     deleteButton.disabled = false;
                 }
             }
+            function allSelect() {
+                for (i = 0; i < checkBoxes.length; i++) {
+                    checkBoxes[i].checked = true;
+                }
+            }
+            function allDeselect() {
+                for (i = 0; i < checkBoxes.length; i++) {
+                    checkBoxes[i].checked = false;
+                }
+            }
         </script>
+        <%- include('includes/back-to-top.ejs')%>
+            <%- include('./includes/preloader.ejs')%>
+
 
 </html>

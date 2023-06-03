@@ -1,80 +1,155 @@
+@import url('styleSheet.css');
+label {
+  float: left
+}
 * {
-    box-sizing: border-box;
-  }
-  .openBtn {
-    display: flex;
-    justify-content: left;
-  }
-  .openButton {
-    border: none;
-    border-radius: 5px;
-    background-color: #0f612f;
-    color: white;
-    padding: 14px 20px;
-    cursor: pointer;
-    position: relative;
-  }
-  .loginPopup {
-    position: relative;
-    text-align: center;
-    width: 100%;
-  }
-  .formPopup {
-    display: none;
-    position: fixed;
-    left: 50%;
-    top: 5%;
-    transform: translate(-50%, 5%);
-    border: 3px solid #999999;
-    z-index: 9;
-  }
-  .formContainer {
-    max-width: 100%;
-    padding: 20px;
-    background-color: #fff;
-  }
-  .formContainer input[type=text],
-  .formContainer input[type=password] {
-    width: 100%;
-    padding: 15px;
-    margin: 5px 0 20px 0;
-    border: none;
-    background: #eee;
-  }
-  .formContainer input[type=text]:focus,
-  .formContainer input[type=password]:focus {
-    background-color: #ddd;
-    outline: none;
-  }
-  .formContainer .btn {
-    padding: 12px 20px;
-    border: none;
-    background-color: #0f612f;
-    color: #fff;
-    cursor: pointer;
-    width: 100%;
-    margin-bottom: 15px;
-    opacity: 0.8;
-  }
-  .formContainer .cancel {
-    background-color: #cc0000;
-  }
-  .formContainer .btn:hover,
-  .openButton:hover {
-    opacity: 1;
-  }
+  box-sizing: border-box;
+}
 
-  .pwc{
-    width: 100%;
-    padding: 15px;
-    margin: 5px 0 20px 0;
-    border: none;
-    background: #eee;
+.openBtn {
+  display: flex;
+  justify-content: left;
+}
+
+.openButton {
+  color: var(--text);
+  background: url('/icons8-write-48.png') no-repeat right;
+  background-size: 25px 25px;
+  flex-grow: 1;
+  text-align: center;
+  padding: 8px 35px 8px 16px;
+  background-color: var(--nav-bg);
+  text-decoration: none;
+  border-radius: 10px;
+  border: none;
+  font-weight: bold;
+  display: block;
+  width: 100%;
+  margin-block: 10px;
+  filter: invert(0%);
+}
+
+.loginPopup {
+  position: relative;
+  text-align: center;
+  width: 100%;
+  z-index: 100;
+}
+
+.formPopup {
+  position: fixed;
+  left: 20%;
+  top: 15%;
+  transform: scale(0%);
+  transition: 0.3s;
+  border: none;
+  z-index: 9;
+  width: 60%;
+  border-radius: 15px;
+  height: 70vh;
+  max-height: 400px;
+  /* overflow: scroll; */
+}
+
+.formPopup[data-visible='true'] {
+  transform: scale(100%);
+  transition: 0.3s;
+}
+
+.formContainer {
+  max-width: 100%;
+  padding: 20px;
+  background-color: var(--white-box);
+  border: 2px solid #999999;
+  border-radius: 15px;
+  position: relative;
+}
+
+.formContainer input[type=text],
+.formContainer input[type=password],
+.formContainer textarea {
+  width: 100%;
+  padding: 15px;
+  margin: 5px 0 20px 0;
+  border: none;
+  background: var(--bg);
+  border-radius: 15px;
+  color: var(--text);
+  transition: 0.3s;
+}
+
+.formContainer input[type=text]::placeholder,
+.formContainer input[type=password]::placeholder,
+.formContainer textarea::placeholder {
+  color: var(--text);
+}
+
+.formContainer input[type=text]:focus,
+.formContainer input[type=password]:focus,
+.formContainer textarea:focus {
+  background-color: var(--white-box);
+  border: #3e3e3e 3px;
+  border-radius: 15px;
+
+  transition: 0.3s;
+}
+
+.formContainer .btn {
+  flex-grow: 1;
+  text-align: center;
+  padding: 8px 16px;
+  background-color: #358f4a;
+  text-decoration: none;
+  color: rgb(255, 255, 255);
+  border-radius: 10px;
+  border: none;
+  font-weight: bold;
+  display: block;
+  width: 100%;
+  margin-block: 10px;
+  transition: 0.3s;
+  filter: invert(0%);
+
+}
+
+.formContainer .cancel {
+  position: absolute;
+  top: 0%;
+  right: 10px;
+  width: 20px;
+  aspect-ratio: 1;
+  background: url('/icons8-close.svg');
+  background-color: #c54939;
+  background-size: cover;
+}
+
+.formContainer .btn:hover,
+.openButton:hover {
+  transition: 0.3s;
+  text-decoration: none;
+  color: black;
+}
+
+.pwc {
+  width: 100%;
+  padding: 15px;
+  margin: 5px 0 20px 0;
+  border: none;
+  background: #eee;
+}
+
+.pwc:focus {
+  width: 100%;
+  padding: 15px;
+  margin: 5px 0 20px 0;
+  border: none;
+  background: #eee;
+}
+
+@media (max-width:426px) {
+  .formPopup {
+    width: 100vw;
+    left:0;
+    overflow: scroll;
   }
-  .pwc:focus{
-    width: 100%;
-    padding: 15px;
-    margin: 5px 0 20px 0;
-    border: none;
-    background: #eee;
-  }
+}

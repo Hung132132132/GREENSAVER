@@ -5,65 +5,56 @@
 
         <body>
             <div class="container-fluid">
-                <div class="row">
-                    <div class="col-5">
+                <div>
+                    <div class="con-and-app">
                         <p><b>Welcome <%=name%>!</b></p>
-                    </div>
-                    <div class="col-7">
-                        <a class="purpleButton" href="/logout" style="float: right;">Log Out</a>
                         <% if(role=='Admin' ) { %>
-                            <a class="purpleButton" href="/contact" style="float: right;">Members</a>
+                            <a class="purpleButton" href="/contact"
+                                style="float: right;border-top-left-radius: 0;border-top-right-radius: 0;">Members</a>
                             <% } %>
                     </div>
-                </div>
-                <div class="whiteBox">
-                    <%- include('includes/searchbar.ejs') %>
-                    <% if(role=='Admin' ) { %>
-                        <div class="col-2">
-                
-                            <button type="button" id="selectButton" class="purpleButton" style="float: right;"
-                                onclick="startSelect()">Select</button>
-                            <div id="countBox" class="pinkBox" style="float: right;">
-                                <div>Selected (please select more than one): </div>
-                                <div id="numberSelected" style="font-weight: bold;"></div>
-                                <button type="submit" id="approveButton"
-                                    formaction="/approve/mutipleApprove">Approve</button>
-                                <button type="submit" id="deleteButton"
-                                    formaction="/approve/mutipleDelete">Delete</button>
-                                <button type="button" onclick="cancleSelect()">Cancle</button>
-                            </div>
-                        </div>
-                        <% } %>
+                    <form method="POST">
+                        <% if(userData.length !=0){ %>
+                            <div class="whiteBox searchbar">
+                                <%- include('includes/searchbar.ejs') %>
+                                    <% if(role=='Admin' ) { %>
+                                        <div class="select-section">
 
-                </div>
-                <% if(userData.length !=0){ %>
-                    <div class="row">
-                        <div class="col">
-                            <button id="selectButton" style="float: right;" formaction=""
-                                onclick="startSelect()">Select</button>
-                            <form method="POST">
-                                <div id="countBox" class="pinkBox" style="float: right;">
-                                    <div>Selected (please select more than one): </div>
-                                    <div id="numberSelected" style="font-weight: bold;"></div>
-                                    <button type="submit" id="approveButton"
-                                        formaction="/approve/mutipleApprove">Approve</button>
-                                    <button type="submit" id="deleteButton"
-                                        formaction="/approve/mutipleDelete">Delete</button>
-                                    <button type="button" onclick="cancleSelect()">Cancle</button>
-                                </div>
-                                <table class="table2 whiteBox" id="contactList" border="1">
+                                            <button type="button" id="selectButton" class="purpleButton"
+                                                onclick="startSelect()">Select</button>
+                                            <div id="countBox" class="purpleButton">
+                                                <div>Selected (please select more than one): </div>
+                                                <div id="numberSelected" style="font-weight: bold;"></div>
+                                                <button type="button" onclick="allSelect()">Select all</button>
+                                                <button type="button" onclick="allDeselect()">Deselect all</button>
+                                                <button type="submit" id="approveButton"
+                                                    formaction="/approve/mutipleApprove">Approve</button>
+                                                <button type="submit" id="deleteButton"
+                                                    formaction="/approve/mutipleDelete">Reject</button>
+                                                <button type="button" onclick="cancleSelect()">Cancle</button>
+                                            </div>
+                                        </div>
+                                        <% } %>
+
+                            </div>
+                            <div class="whiteBox row">
+                                <table class="table2" id="contactList">
                                     <tr>
+                                        <th></th>
                                         <th>No.</th>
                                         <th>Name</th>
                                         <th>Email</th>
                                         <th>Phone Number</th>
                                         <th>Area</th>
                                         <th>Status</th>
-                                        <th>Delete</th>
-                                        <th>Approve</th>
+                                        <th></th>
                                     </tr>
                                     <% if(userData.length !=0){ var i=1; userData.forEach(function(data){ %>
                                         <tr>
+                                            <td>
+                                                <input type="checkbox" name="checkBox" id="<%=i%>" class="checkbox"
+                                                    onclick="select()" value="<%=data.email%>">
+                                            </td>
                                             <td>
                                                 <%=i%>
                                             </td>
@@ -79,34 +70,48 @@
                                             <td>
                                                 <%=data.area%>
                                             </td>
-                                            <td>
+                                            <td style="text-transform: capitalize;">
                                                 <%=data.role%>
                                             </td>
                                             <td>
-                                                <a class="red"
-                                                    href="/approve/delete/<%=data.email%>/<%=data.username%>">Delete</a>
-                                            </td>
-                                            <td>
-                                                <a class="red"
-                                                    href="/approve/approved/<%=data.email%>/<%=data.username%>">Approve</a>
-                                            </td>
-                                            <td>
-                                                <input type="checkbox" name="checkBox" id="<%=i%>" class="checkbox"
-                                                    onclick="select()" value="<%=data.email%>">
+                                                <button type="button" class="DEAbutton" onclick="openDEA('<%=i%>')"></button>
+                                                <div class="DEA" id="<%=i%>dea" data-visible="false">
+                                                    <a
+                                                        href="/approve/approved/<%=data.email%>/<%=data.username%>">Approve</a>
+                                                    <a
+                                                        href="/approve/delete/<%=data.email%>/<%=data.username%>">Reject</a>
+                                                </div>
                                             </td>
                                         </tr>
 
                                         <% i++; }); } %>
                                 </table>
-                            </form>
-                        </div>
-                    </div>
+                            </div>
+                    </form>
                     <% } else { %>
                         <h2>NOT FOUND</h2>
                         <% } %>
+
+                </div>
             </div>
         </body>
         <script>
+            openDEA = (id) => {
+                var DEA = document.getElementById(id + 'dea');
+                var visibility = DEA.getAttribute('data-visible');
+                if (visibility === 'false') {
+                    DEA.setAttribute('data-visible', true);
+                } else {
+                    DEA.setAttribute('data-visible', false);
+                }
+            }
+            closeDEA = (id) => {
+                var DEA = document.getElementById(id + 'dea');
+                var visibility = DEA.getAttribute('data-visible');
+
+                DEA.setAttribute('data-visible', false);
+            }
+
             var selectButton = document.getElementById('selectButton');
             var approveButton = document.getElementById('approveButton');
             var deleteButton = document.getElementById('deleteButton');
@@ -152,6 +157,18 @@
                     deleteButton.disabled = false;
                 }
             }
+            function allSelect() {
+                for (i = 0; i < checkBoxes.length; i++) {
+                    checkBoxes[i].checked = true;
+                }
+            }
+            function allDeselect() {
+                for (i = 0; i < checkBoxes.length; i++) {
+                    checkBoxes[i].checked = false;
+                }
+            }
         </script>
+        <%- include('includes/back-to-top.ejs')%>
+            <%- include('./includes/preloader.ejs')%>
 
 </html>

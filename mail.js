@@ -13,16 +13,16 @@ var emailDemo = 'alex.yasuo132132@gmail.com'
 
 var noteMess = "<b>Note:</b> This is an automatically generated email. Do not reply to it."
 
-mail.SignUp = function (username, email) {
+mail.SignUp =  (username, email) => {
 
     var mailOptions = {
-        from: 'GREENSAVER<alex.trinhquoc@gmail.com>',
+        from: 'GREENSAVER<greensaver-noreply@gmail.com>',
         to: emailDemo,
         subject: 'Thank you for your sign up, ' + username,
         html: '<p>' + username + ', you just recently registered to our community, GREENSAVER.<br>Your registration is pending an approval. This may take upto half a day. Please be patient.<br>' + noteMess + '</p>'
     };
 
-    transporter.sendMail(mailOptions, function (error, info) {
+    transporter.sendMail(mailOptions,  (error, info) => {
         if (error) {
             console.log(error);
         } else {
@@ -30,7 +30,7 @@ mail.SignUp = function (username, email) {
         }
     });
 }
-mail.Approve = function (username, email) {
+mail.Approve =  (username, email) => {
 
     var mailOptions = {
         from: 'GREENSAVER<alex.trinhquoc@gmail.com>',
@@ -39,7 +39,7 @@ mail.Approve = function (username, email) {
         html: '<p>' + username + ', you are a now a part of the community, GREENSAVER.<br>From now on, you will receive requests from other memebers from the same area to join their journey on saving the "green" of our planet.<br>' + noteMess + '</p>'
     };
 
-    transporter.sendMail(mailOptions, function (error, info) {
+    transporter.sendMail(mailOptions,  (error, info) => {
         if (error) {
             console.log(error);
         } else {
@@ -47,7 +47,7 @@ mail.Approve = function (username, email) {
         }
     });
 }
-mail.DisApprove = function (username, email) {
+mail.DisApprove =  (username, email) => {
 
     var mailOptions = {
         from: 'GREENSAVER<alex.trinhquoc@gmail.com>',
@@ -56,7 +56,7 @@ mail.DisApprove = function (username, email) {
         html: '<p>' + username + ', you have just recently been removed from GREENSAVER by the adminstrator.<br>Please note that it could be a mistake so feel free to contact us for the reason of this removal.<br>'+ noteMess +'</p>'
     };
 
-    transporter.sendMail(mailOptions, function (error, info) {
+    transporter.sendMail(mailOptions,  (error, info) => {
         if (error) {
             console.log(error);
         } else {
@@ -64,7 +64,7 @@ mail.DisApprove = function (username, email) {
         }
     });
 }
-mail.EditInfo = function (username, email) {
+mail.EditInfo =  (username, email) => {
 
     var mailOptions = {
         from: 'GREENSAVER<alex.trinhquoc@gmail.com>',
@@ -73,7 +73,40 @@ mail.EditInfo = function (username, email) {
         html: '<p>' + username + ', your account information has been recently changed by the adminstrator of GREENSAVER.<br>'+ noteMess + '</p>'
     };
 
-    transporter.sendMail(mailOptions, function (error, info) {
+    transporter.sendMail(mailOptions,  (error, info) => {
+        if (error) {
+            console.log(error);
+        } else {
+            console.log('Email sent: ' + info.response);
+        }
+    });
+}
+mail.ChangePass =  (username, email) => {
+
+    var mailOptions = {
+        from: 'GREENSAVER<alex.trinhquoc@gmail.com>',
+        to: emailDemo,
+        subject: "Changes to " + username + "'s account",
+        html: '<p>' + username + ', your password has been changed successfully.<br>'+ noteMess + '</p>'
+    };
+
+    transporter.sendMail(mailOptions,  (error, info) => {
+        if (error) {
+            console.log(error);
+        } else {
+            console.log('Email sent: ' + info.response);
+        }
+    });
+}
+mail.sendOTP =  (email, otp) => {
+    var mailOptions = {
+        from: 'GREENSAVER<alex.trinhquoc@gmail.com>',
+        to: emailDemo,
+        subject: "OTP code for your registration" ,
+        html: '<p>Your OTP code is ' + otp + '. <br>Warning: Do not share this code with anyone else.</p>'
+    };
+
+    transporter.sendMail(mailOptions,  (error, info) => {
         if (error) {
             console.log(error);
         } else {

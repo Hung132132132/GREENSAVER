@@ -1,6 +1,6 @@
 function openForm() {
-    document.getElementById("popupForm").style.display = "block";
+    document.getElementById("popupForm").setAttribute('data-visible', true);
 }
 function closeForm() {
-    document.getElementById("popupForm").style.display = "none";
+    document.getElementById("popupForm").setAttribute('data-visible', false);
 }

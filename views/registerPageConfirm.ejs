@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+
+<%- include('includes/head.ejs') %>
+    <%- include('includes/nav.ejs') %>
+        <%- include('includes/back-to-top.ejs')%>
+            <%- include('includes/preloader.ejs')%>
+                <style>
+                    input {
+                        width: 100%;
+                    }
+                </style>
+
+                <body>
+                    <div class="container-fluid">
+                        <div class="main">
+                            <div class="whiteBox formCon">
+                                <h3 class="formTitle">Registration Confirmation</h3>
+                            </div>
+                            <div class="whiteBox formCon">
+                                <form class="registerForm" name="registerForm" action="/register/checkOTP" method="POST">
+                                    <%- include('includes/errorNotice.ejs') %>
+                                        <div class="form">
+                                            <h4>Log-in information</h4>
+                                            <td><input class="inputForm" type="text" id="username" name="username"
+                                                    placeholder="Username" value="<%=data.username%>" required readonly>
+                                            </td>
+                                            <td><input class="inputForm" type="password" id="pass1" name="password"
+                                                    placeholder="Password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                                                    title="Must contain at least one  number and one uppercase and lowercase letter, and at least 8 or more characters"
+                                                    value="<%=data.password%>" required readonly></td>
+                                            <td><input class="inputForm" type="password" id="pass2"
+                                                    placeholder="Retype password"
+                                                    pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                                                    title="Must contain at least one  number and one uppercase and lowercase letter, and at least 8 or more characters"
+                                                    value="<%=data.password%>" required readonly></td>
+
+                                            <h4>User information</h4>
+                                            <td><input type="text" id="name" name="name" placeholder="Name" value="<%=data.name%>" required readonly>
+                                            </td>
+                                            <td><input type="text" id="phone" name="phone" pattern="[0-9]{10}"
+                                                    placeholder="Phone" value="<%=data.phone%>" 
+                                                    title="Phone number with 7-9 and remaing 9 digit with 0-9" required readonly>
+                                            </td>
+                                            <td><input type="email" id="email" name="email" placeholder="Email"
+                                                    pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" value="<%=data.email%>" required readonly></td>
+                                            <td>
+                                                <input type="text" class="inputForm" name="area" id="area" value="<%=data.area%>" required readonly>
+                                            </td>
+                                            <td>
+                                                <input type="text" class="inputForm" name="OTP" id="area" placeholder="OTP" required>
+                                            </td>
+                                        </div>
+
+                                        <div class="homebuttons">
+                                            <button class="submitButton purpleButton width40" type="submit"
+                                                name="submit">Register</button>
+                                            <button type="reset"
+                                                class="submitButton purpleButton width40">Clear</button>
+
+                                        </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </body>
+                <script>
+                    setInterval(addMember, 100);
+
+                    document.querySelector("button[type=submit]").disabled = true;
+
+                    function addMember() {
+                        var getName = document.getElementById('name').value;
+                        var getEmail = document.getElementById('email').value;
+                        var getPhone = document.getElementById('phone').value;
+                        var getUsername = document.getElementById('username').value;
+                        var getPass1 = document.getElementById('pass1').value;
+                        var getPass2 = document.getElementById('pass2').value;
+                        var getArea = document.getElementById('area').value;
+
+                        var errorMessagePass = document.getElementById('errorMessPassword');
+                        var errorMessageWrapperPass = document.getElementById('errorMess-wrapper-pass');
+
+                        errorMessageWrapperPass.style.display = 'none';
+
+                        if (getName == "" || getEmail == "" || getPhone == "" || getUsername == "" || getPass1 == "" || getPass2 == "" || getArea == "") {
+                            document.querySelector("button[type=submit]").disabled = true;
+                            errorMessageWrapperPass.style.display = 'block';
+                            errorMessagePass.innerHTML = "Please fill out the blank(s)";
+                        } else if (getPass1 != getPass2) {
+                            document.querySelector("button[type=submit]").disabled = true;
+                            errorMessageWrapperPass.style.display = 'block';
+                            errorMessagePass.innerHTML = "Passwords don't match!";;
+                        } else {
+                            document.querySelector("button[type=submit]").disabled = false;
+                            errorMessageWrapperPass.style.display = 'none';
+                        }
+                    }
+                </script>
+
+</html>
